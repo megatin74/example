@@ -33,7 +33,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="RacingCar.cpp" />
+		<Unit filename="RacingCarClassBase.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
