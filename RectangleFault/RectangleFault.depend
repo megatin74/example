@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1475468967 source:d:\git\rectanglefault\point.cpp
+	<iostream>
+	"Point.h"
+
+1475468498 d:\git\rectanglefault\point.h
+
+1475468661 source:d:\git\rectanglefault\rectagle.cpp
+	<iostream>
+	"Rectagle.h"
+
+1475468056 d:\git\rectanglefault\rectagle.h
+	"Point.h"
+
+1475468872 source:d:\git\rectanglefault\rectaglefaultfind.cpp
+	<iostream>
+	"Point.h"
+	"Rectagle.h"
+
