@@ -1,0 +1,154 @@
+/*
+	OOP_PROJECT 2단계
+	main.cpp
+*/
+#include "oop.h"
+
+int main(void)
+{
+	Bank* pArray[100];
+	int select;
+	int count=0;
+
+	while(1)
+	{
+		PrintMenu();
+		cout<<"선택할 기능(1~5) : "; cin>>select;
+
+		if(select==MAKE)
+		{	
+			pArray[count]=new Bank; //
+			pArray[count]->MakeAccount(count);
+		}	//생성자 호출로 한줄로 처리 가능
+		else if(select==DEPOSIT)
+		{
+			int find;
+			cout<<"출금할 계좌번호 : ";
+			cin>>find;
+			for(int i=0; i<count; i++)
+			{
+				pArray[i]->Deposit(find);
+			}	//계좌 찾고 그것만 실행 종료하게하자
+		}
+		else if(select==WITHDRAW)
+		{
+			int find;
+			cout<<"출금할 계좌번호 : ";
+			cin>>find;
+			for(int j=0; j<count; j++)
+			{
+				pArray[j]->Withdraw(find);
+			}	//계좌 찾고 그것만 실행 종료하게하자
+		}
+		else if(select==INQUIRE)
+		{
+			for(int k=0; k<count; k++)
+			{
+				pArray[k]->Inquire();
+			}
+		}
+		else
+		{
+			return 0;
+		}
+	}
+}				
+
+
+
+
+/*
+	oop.h
+*/
+#ifndef _COUNT_H_
+#define _COUNT_H_ 20
+
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+enum{MAKE=1, DEPOSIT, WITHDRAW, INQUIRE, EXIT};
+
+#endif
+
+extern void PrintMenu(void);
+
+class Bank{
+	int account;	//계좌
+	char name[20];	//이름
+	int balance;	//잔액
+public:
+	Bank();
+	~Bank();
+	void MakeAccount(int&);	//계좌개설
+	void Deposit(int);	//입금
+	void Withdraw(int);	//출금
+	void Inquire();	//잔액조회
+};
+
+/*
+	oop.cpp
+*/
+#include "oop.h"
+
+void PrintMenu(void)	//메뉴
+{
+	cout<<"기능 1. 계좌 개설"<<endl;
+	cout<<"기능 2. 입     금"<<endl;
+	cout<<"기능 3. 출     금"<<endl;
+	cout<<"기능 4. 전체 고객 잔액 조회"<<endl;
+	cout<<"기능 5. 종     료"<<endl;
+}
+
+Bank::Bank()
+{
+	//name은 초기화 못하나
+	account=00000000;
+	balance=0;
+}
+Bank::~Bank()
+{
+	delete this;
+}
+void Bank::MakeAccount(int& _count)	//계좌개설
+{
+	cout<<"성    함 : ";	cin>>name;
+	cout<<"계좌번호 : ";	cin>>account;
+	cout<<"입금금액 : ";    cin>>balance;
+	cout<<endl;
+
+	_count++;
+}
+void Bank::Deposit(int _find)	//입금
+{
+	if(_find==account)
+	{
+		int deposit_pay;
+		cout<<"성  함 : "<<name<<endl;
+		cout<<"입금할 금액 : ";
+		cin>>deposit_pay;
+		balance+=deposit_pay;
+		cout<<"통장의 잔액 : "<<balance<<endl;
+		cout<<endl;
+	}	//계좌번호가 중복되지 않는다고 가정
+}
+void Bank::Withdraw(int _find)	//출금
+{
+	if(_find==account)
+	{
+		int withdraw_pay;
+		cout<<"성  함 : "<<name<<endl;
+		cout<<"출금할 금액 : ";
+		cin>>withdraw_pay;
+		balance-=withdraw_pay;
+		cout<<"통장의 잔액 : "<<balance<<endl;
+		cout<<endl;
+	}	//계좌번호가 중복되지 않는다고 가정
+}
+void Bank::Inquire()	//잔액조회
+{
+	cout<<"계좌번호 : "<<account<<endl;
+	cout<<"성    함 : "<<name<<endl;
+	cout<<"잔    액 : "<<balance<<endl;
+	cout<<endl;
+}

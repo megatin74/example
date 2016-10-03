@@ -1,0 +1,714 @@
+/*
+	OpIntro.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Point{
+private:
+	int x, y;
+public:
+	Point(int _x=0, int _y=0):x(_x),y(_y){}
+	void ShowPosition();
+	void operator+(int val);	//operator라는 이름의 함수
+};
+void Point::ShowPosition(){
+	cout<<x<<" "<<y<<endl;
+}
+void Point::operator +(int val){
+	x+=val;
+	y+=val;
+}
+
+int main(void)
+{
+	Point p(3,4);
+	p.ShowPosition();
+
+	p+10;	//p.operator +(10);
+	p.ShowPosition();
+
+	return 0;
+}
+
+
+
+/*
+	OpOverloading1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Point{
+private:
+	int x, y;
+public:
+	Point(int _x=0, int _y=0) :x(_x),y(_y){}
+	void ShowPosition();
+	Point operator+(const Point& p);
+};
+void Point::ShowPosition(){
+	cout<<x<<' '<<y<<endl;
+}
+Point Point::operator +(const Point& p){
+	Point temp(x+p.x,y+p.y);
+	return temp;
+}
+
+int main(void)
+{
+	Point p1(1,2);
+	Point p2(2,1);
+	Point p3=p1+p2;
+	p3.ShowPosition();
+
+	return 0;
+}
+
+
+/*
+	OpOverloading2.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Point{
+private:
+	int x,y;
+public:
+	Point(int _x=0,int _y=0):x(_x),y(_y){}
+	void ShowPosition();
+	friend Point operator+(const Point& p1, const Point& p2);
+};
+void Point::ShowPosition(){
+	cout<<x<<" "<<y<<endl;
+}
+
+Point operator+(const Point& p1, const Point& p2)
+{
+	Point temp(p1.x+p2.x,p1.y+p2.y);
+	return temp;
+}
+
+int main(void)
+{
+	Point p1(1,2);
+	Point p2(2,1);
+	Point p3=p1+p2;
+	p3.ShowPosition();	//Point p3=operator+(p1,p2);
+
+	return 0;
+}
+
+
+
+/*
+	OpOverloading3.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Point{
+private:
+	int x,y;
+public:
+	Point(int _x=0, int _y=0):x(_x), y(_y){}
+	void ShowPosition();
+	Point& operator++();
+	friend Point& operator--(Point& p);
+};
+void Point::ShowPosition(){
+	cout<<x<<' '<<y<<endl;
+}
+Point& Point::operator ++(){	//멤버 함수에 의한 오버로딩
+	x++;
+	y++;
+	return *this;
+}
+
+Point& operator--(Point& p){	//전역 함수에 의한 오버로딩
+	p.x--;
+	p.y--;
+	return p;
+}
+
+int main(void)
+{
+	Point p(1,2);
+	++p;	//p의 x,y 값을 1씩 증가
+	p.ShowPosition();	//2,3
+
+	--p;	//p의 x,y 값을 1씩 감소
+	p.ShowPosition();	//1,2
+
+	++(++p);	//p의 x,y 값을 2씩 증가
+	p.ShowPosition();	//3,4
+
+	--(--p);	//p의 x,y 값을 2씩 감소
+	p.ShowPosition();	//1,2
+
+	return 0;
+}
+
+
+/*
+	OpOverloading4.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Point{
+private:
+	int x,y;
+public:
+	Point(int _x=0, int _y=0):x(_x), y(_y){}
+	void ShowPosition();
+	Point& operator++();
+	friend Point& operator--(Point& p);
+};
+void Point::ShowPosition(){
+	cout<<x<<' '<<y<<endl;
+}
+Point& Point::operator ++(){	//멤버 함수에 의한 오버로딩
+	x++;
+	y++;
+	return *this;
+}
+
+Point& operator--(Point& p){	//전역 함수에 의한 오버로딩
+	p.x--;
+	p.y--;
+	return p;
+}
+
+
+int main(void)
+{
+	Point p1(1,2);
+	(p1++).ShowPosition();
+
+	Point p2(1,2);
+	(++p2).ShowPosition();
+
+	return 0;
+}
+
+
+
+
+/*
+	OpOverloading5.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Point{
+private:
+	int x,y;
+public:
+	Point(int _x=0, int _y=0):x(_x), y(_y){}
+	void ShowPosition();
+	Point& operator++();
+	Point operator++(int);
+};
+void Point::ShowPosition(){
+	cout<<x<<' '<<y<<endl;
+}
+Point& Point::operator ++(){	//멤버 함수에 의한 오버로딩
+	x++;
+	y++;
+	return *this;
+}
+
+Point Point::operator ++(int){
+	Point temp(x,y);	//Point temp(*this);
+	x++;
+	y++;
+	//++(*this);
+	return temp;
+}
+
+int main(void)
+{
+	Point p1(1,2);
+	(p1++).ShowPosition();
+	p1.ShowPosition();
+
+	Point p2(1,2);
+	(++p2).ShowPosition();
+
+	return 0;
+}
+
+
+
+/*
+	Associative1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Point{
+private:
+	int x, y;
+public:
+	Point(int _x=0, int _y=0):x(_x), y(_y){}
+	void ShowPosition();
+	Point operator+(int val);	//operator+라는 이름의 함수
+};
+void Point::ShowPosition(){
+	cout<<x<<" "<<y<<endl;
+}
+Point Point::operator +(int val){
+	Point temp(x+val, y+val);
+	return temp;
+}
+
+int main(void)
+{
+	Point p1(1,2);
+	Point p2=p1+3;
+	p2.ShowPosition();
+
+	return 0;
+}
+
+
+
+/*
+	HelloWorldReview2.cpp
+*/
+#include<stdio.h>
+
+namespace mystd	//mystd라는 이름공간 시작
+{
+	char* endl="\n";
+	class ostream	//클래스 ostream 정의
+	{
+	public:
+		ostream& operator<<(char* str){
+			printf("%s",str);
+			return *this;
+		}
+		ostream& operator<<(int i){
+			printf("%d",i);
+			return *this;
+		}
+		ostream& operator<<(double i){
+			printf("%e",i);
+			return *this;
+		}
+	};
+
+	ostream cout;	//ostream 객체 생성
+}	//mystd 이름공간 끝
+
+using mystd::cout;
+using mystd::endl;
+
+int main(void)
+{
+	cout<<"Hello World"<<endl<<3.14<<endl;
+
+	return 0;
+}
+
+
+/*
+	OpOverloading6.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+
+using std::ostream;
+
+class Point{
+private:
+	int x,y;
+public:
+	Point(int _x=0, int _y=0):x(_x),y(_y){}
+	friend ostream& operator<<(ostream& os,Point p);
+};
+
+ostream& operator<<(ostream& os,Point p){
+	os<<"["<<p.x<<", "<<p.y<<"]"<<endl;
+	return os;
+}
+
+int main(void)
+{
+	Point p(1,3);
+	cout<<p;
+
+	return 0;
+}
+
+
+
+/*
+	IdxOverloading1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+const int SIZE=3;	//저장소의 크기
+
+class Arr{
+private:
+	int arr[SIZE];
+	int idx;
+public:
+	Arr():idx(0){}
+	int GetElem(int i);				//요소를 참조하는 함수
+	void SetElem(int i, int elem);	//저장된 요소를 변경하는 함수
+	void AddElem(int elem);			//배열에 데이터 저장하는 함수
+	void ShowAllData();
+};
+
+int Arr::GetElem(int i){
+	return arr[i];
+}
+void Arr::SetElem(int i, int elem){
+	if(idx<=i){
+		cout<<"존재하지 않는 요소!"<<endl;
+		return;
+	}
+	arr[i]=elem;
+}
+void Arr::AddElem(int elem){
+	if(idx>=SIZE){
+		cout<<"용량 초과!"<<endl;
+		return;
+	}
+	arr[idx++]=elem;
+}
+void Arr::ShowAllData(){
+	for(int i=0;i<idx;i++)
+		cout<<"arr["<<i<<"]="<<arr[i]<<endl;
+}
+
+int main()
+{
+	Arr arr;
+	arr.AddElem(1);
+	arr.AddElem(2);
+	arr.AddElem(3);
+	arr.ShowAllData();
+
+	//개별 요소 접근 및 변경
+	arr.SetElem(0,10);
+	arr.SetElem(1,20);
+	arr.SetElem(2,30);
+
+	cout<<arr.GetElem(0)<<endl;
+	cout<<arr.GetElem(1)<<endl;
+	cout<<arr.GetElem(2)<<endl;
+
+	return 0;
+}
+
+
+
+/*
+	IdxOverloading2.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+const int SIZE=3;	//저장소의 크기
+
+class Arr{
+private:
+	int arr[SIZE];
+	int idx;
+public:
+	Arr():idx(0){}
+	int GetElem(int i);				//요소를 참조하는 함수
+	void SetElem(int i, int elem);	//저장된 요소를 변경하는 함수
+	void AddElem(int elem);			//배열에 데이터 저장하는 함수
+	int& operator[](int i);
+	void ShowAllData();
+};
+
+int Arr::GetElem(int i){
+	return arr[i];
+}
+void Arr::SetElem(int i, int elem){
+	if(idx<=i){
+		cout<<"존재하지 않는 요소!"<<endl;
+		return;
+	}
+	arr[i]=elem;
+}
+void Arr::AddElem(int elem){
+	if(idx>=SIZE){
+		cout<<"용량 초과!"<<endl;
+		return;
+	}
+	arr[idx++]=elem;
+}
+int& Arr::operator [](int i){	//Arr 클래스에 추가되어야 할 멤버 함수
+	return arr[i];
+}
+
+void Arr::ShowAllData(){
+	for(int i=0;i<idx;i++)
+		cout<<"arr["<<i<<"]="<<arr[i]<<endl;
+}
+
+
+
+int main()
+{
+	Arr arr;
+	arr.AddElem(1);
+	arr.AddElem(2);
+	arr.AddElem(3);
+	arr.ShowAllData();
+
+	//개별 요소 접근 및 변경
+	arr[0]=10;
+	arr[1]=20;
+	arr[2]=30;
+
+	cout<<arr[0]<<endl;
+	cout<<arr[1]<<endl;
+	cout<<arr[2]<<endl;
+
+	return 0;
+}
+
+
+/*
+	IdxOverloading3.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+using std::ostream;
+
+/*********** Point Class **************/
+class Point{
+private:
+	int x, y;
+public:
+	Point(int _x=0, int _y=0):x(_x),y(_y){}
+	friend ostream& operator<<(ostream& os, const Point& p);
+};
+
+ostream& operator<<(ostream& os, const Point& p)
+{
+	os<<"["<<p.x<<", "<<p.y<<"]";
+	return os;
+}
+
+/*********** PointArr Class ***********/
+const int SIZE=5;
+
+class PointArr{
+private:
+	Point arr[SIZE];
+	int idx;
+public:
+	PointArr():idx(0){}
+	void AddElem(const Point& elem);
+	void ShowAllData();
+	Point& operator[](int i);	//배열 요소에 접근
+};
+
+void PointArr::AddElem(const Point& elem){
+	if(idx>=SIZE){
+		cout<<"용량 초과!"<<endl;
+		return;
+	}
+	arr[idx++]=elem;
+}
+void PointArr::ShowAllData(){
+	for(int i=0; i<idx; i++)
+		cout<<"arr["<<i<<"]="<<arr[i]<<endl;
+}
+
+Point& PointArr::operator [](int i){
+	return arr[i];
+}
+
+int main(void)
+{
+	PointArr arr;
+
+	arr.AddElem(Point(1,1));
+	arr.AddElem(Point(2,2));
+	arr.AddElem(Point(3,3));
+	arr.ShowAllData();
+
+	// 개별 요소 접근 및 변경
+	arr[0]=Point(10,10);
+	arr[1]=Point(20,20);
+	arr[2]=Point(30,30);
+
+	cout<<arr[0]<<endl;
+	cout<<arr[1]<<endl;
+	cout<<arr[2]<<endl;
+
+	return 0;
+}
+
+
+/*
+	DefaultSubOp.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+
+using std::ostream;
+
+class Point{
+private:
+	int x, y;
+public:
+	Point(int _x, int _y):x(_x),y(_y){}
+	friend ostream& operator<<(ostream& os, const Point& p);
+};
+
+ostream& operator<<(ostream& os, const Point& p)
+{
+	os<<"["<<p.x<<", "<<p.y<<"]";
+	return os;
+}
+
+int main(void)
+{
+	Point p1(1, 3);
+	Point p2(10, 30);
+	cout<<p1<<endl;
+	cout<<p2<<endl;
+
+	p1=p2;	//p1.operator=(p2);
+	cout<<p1<<endl;
+
+	return 0;
+}
+
+
+
+
+/*
+	DefaultSubOb1.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+
+using std::ostream;
+
+class Person{
+private:
+	char* name;
+public:
+	Person(char* _name);
+	Person(const Person& p);
+	~Person();
+	friend ostream& operator<<(ostream& os, const Person& p);
+};
+Person::Person(char* _name){
+	name=new char[strlen(_name)+1];
+	strcpy(name,_name);
+}
+Person::Person(const Person& p){
+	name=new char[strlen(p.name)+1];
+	strcpy(name,p.name);
+}
+Person::~Person(){
+	delete[] name;
+}
+
+ostream& operator<<(ostream& os, const Person& p)
+{
+	os<<p.name;
+	return os;
+}
+
+int main()
+{
+	Person p1("Lee June");
+	Person p2("Hong Ken");
+
+	cout<<p1<<endl;
+	cout<<p2<<endl;
+
+	p1=p2;
+	cout<<p1<<endl;
+
+	return 0;
+}
+
+
+
+/*
+	DefaultSubOb2.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+
+using std::ostream;
+
+class Person{
+private:
+	char* name;
+public:
+	Person(char* _name);
+	Person(const Person& p);
+	~Person();
+	Person& operator=(const Person& p);
+	friend ostream& operator<<(ostream& os, const Person& p);
+};
+Person::Person(char* _name){
+	name=new char[strlen(_name)+1];
+	strcpy(name,_name);
+}
+Person::Person(const Person& p){
+	name=new char[strlen(p.name)+1];
+	strcpy(name,p.name);
+}
+Person::~Person(){
+	delete[] name;
+}
+Person& Person::operator =(const Person& p){
+	delete[] name;
+	name=new char[strlen(p.name)+1];
+	strcpy(name,p.name);
+	return *this;
+}
+
+ostream& operator<<(ostream& os, const Person& p)
+{
+	os<<p.name;
+	return os;
+}
+
+int main()
+{
+	Person p1("Lee June");
+	Person p2("Hong Ken");
+
+	cout<<p1<<endl;
+	cout<<p2<<endl;
+
+	p1=p2;
+	cout<<p1<<endl;
+
+	return 0;
+}

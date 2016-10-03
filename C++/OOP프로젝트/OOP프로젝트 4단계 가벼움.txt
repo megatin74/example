@@ -1,0 +1,213 @@
+/*
+	OOP_PROJECT 4단계
+	main.cpp
+*/
+#include "oop.h"
+
+int main(void)
+{
+	while(1)
+	{
+		PrintMenu();
+
+		int select;
+		cout<<"선택할 기능(1~5) : "; cin>>select;
+
+		switch(select)
+		{
+			case MAKE:
+				MakeAccount();
+				break;
+			case DEPOSIT:
+				Deposit();
+				break;
+			case WITHDRAW:
+				Withdraw();
+				break;
+			case INQUIRE:
+				Inquire();
+				break;
+			case EXIT:
+				return 0;
+			default:
+				cout<<"선택을 잘못하셨습니다."<<endl;
+				break;
+		}
+	}
+}				
+
+
+
+
+
+/*
+	oop.h
+*/
+#ifndef _COUNT_H_
+#define _COUNT_H_ 20
+
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+enum{MAKE=1, DEPOSIT, WITHDRAW, INQUIRE, EXIT};
+
+#endif
+
+class Account{
+	int id;	//계좌
+	char *name;	//이름
+	int balance;	//잔액
+public:
+	static count;
+	Account(){}
+	Account(int id, char *name, int balance);
+	Account(const Account& ac);
+	~Account();
+
+	const int GetId() const;
+	const int GetBalance() const;
+	void AddBalance(int add);	//잔액증가
+	void MinBalance(int min);	//잔액감소
+	void ShowAllData() const;
+};
+
+extern void PrintMenu();
+extern void MakeAccount();	//계좌개설
+extern void Deposit();	//입금
+extern void Withdraw();	//출금
+extern void Inquire();	//잔액조회
+
+#define SIZE 20
+
+
+
+
+/*
+	oop.cpp
+*/
+#include "oop.h"
+
+int Account::count=0;
+Account* pArray[100];
+
+Account::Account(int id, char* name, int balance)
+{
+	this->id=id;
+	
+	this->name=new char[strlen(name)+1];
+	strcpy(this->name,name);
+
+	this->balance=balance;
+}
+Account::Account(const Account& ac)
+{
+	id=ac.id;
+
+	name=new char[strlen(ac.name)+1];
+	strcpy(name,ac.name);
+
+	balance=ac.balance;
+}
+Account::~Account()
+{
+	delete[] name;	//delete this;
+}
+const int Account::GetId() const
+{
+	return id;
+}
+const int Account::GetBalance() const
+{
+	return balance;
+}
+void Account::AddBalance(int add)
+{
+	balance+=add;
+}
+void Account::MinBalance(int min)
+{
+	balance-=min;
+}
+void Account::ShowAllData() const
+{
+	cout<<"계좌번호 : "<<id<<endl;
+	cout<<"성    함 : "<<name<<endl;
+	cout<<"잔    액 : "<<balance<<endl;
+	cout<<endl;
+}
+
+
+void PrintMenu(void)	//메뉴
+{
+	cout<<"기능 1. 계좌 개설"<<endl;
+	cout<<"기능 2. 입     금"<<endl;
+	cout<<"기능 3. 출     금"<<endl;
+	cout<<"기능 4. 전체 고객 잔액 조회"<<endl;
+	cout<<"기능 5. 종     료"<<endl;
+}
+void MakeAccount()	//계좌개설
+{
+	char name[SIZE];
+	int id;
+	int balance;
+
+	cout<<"성    함 : ";	cin>>name;
+	cout<<"계좌번호 : ";	cin>>id;
+	cout<<"입금금액 : ";    cin>>balance;
+	cout<<endl;
+
+	pArray[Account::count]=new Account(id,name,balance);
+	Account::count++;
+}
+void Deposit()	//입금
+{
+	int find;
+	
+	cout<<"입금할 계좌번호 : ";
+	cin>>find;
+	for(int i=0; i<Account::count; i++)
+	{
+		if(pArray[i]->GetId()==find)
+		{
+			int add;
+			cout<<"입금할 금액 : ";
+			cin>>add;
+			pArray[i]->AddBalance(add);
+
+			cout<<"통장의 잔액 : "<<pArray[i]->GetBalance()<<endl;
+			cout<<endl;
+			return;
+		}
+
+	}
+	cout<<"잘못된 계좌번호를 입력하셨습니다."<<endl;
+}
+void Withdraw()	//출금
+{
+	int find;
+	
+	cout<<"출금할 계좌번호 : ";
+	cin>>find;
+	for(int i=0; i<Account::count; i++)
+	{
+		if(pArray[i]->GetId()==find)
+		{
+			int min;
+			cout<<"출금할 금액 : ";
+			cin>>min;
+			pArray[i]->MinBalance(min);
+
+			cout<<"통장의 잔액 : "<<pArray[i]->GetBalance()<<endl;
+			cout<<endl;
+			return;
+		}
+
+	}
+	cout<<"잘못된 계좌번호를 입력하셨습니다."<<endl;
+}
+void Inquire() 	//잔액조회
+{
+	for(int i=0;i<Account::count;i++)
+		pArray[i]->ShowAllData();
+}

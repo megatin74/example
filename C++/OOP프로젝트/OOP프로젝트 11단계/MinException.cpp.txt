@@ -1,0 +1,17 @@
+/*
+	MinException.cpp
+*/
+#include "MinException.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+
+MinException::MinException(double val)
+{
+	ex_val=val;
+}
+void MinException::What()
+{
+	cout<<"입(출)금액 "<<ex_val<<"은 유효하지 않습니다!"<<endl;
+	cout<<endl;
+}

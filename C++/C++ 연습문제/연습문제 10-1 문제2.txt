@@ -1,0 +1,42 @@
+/*
+	연습문제 10-1 문제2
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Point{
+private:
+	int x, y;
+public:
+	Point(int _x=0, int _y=0) :x(_x),y(_y){}
+	void ShowPosition();
+	bool operator!=(const Point& p);
+};
+bool Point::operator!=(const Point& p)
+{
+	if(x!=p.x||y!=p.y)
+		return true;
+	else
+		return false;
+}
+
+int main(void)
+{
+	Point p1(2,1);
+	Point p2(2,1);
+	Point p3(3,3);
+
+	if(p1!=p2)
+		cout<<" 다르다!"<<endl;
+	else
+		cout<<" 같다!"<<endl;
+	if(p2!=p3)
+		cout<<" 다르다!"<<endl;
+	else
+		cout<<" 같다!"<<endl;
+
+	return 0;
+}
+
+

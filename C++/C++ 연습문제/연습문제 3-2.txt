@@ -1,0 +1,49 @@
+/*
+	Printer.h
+*/
+#include<iostream>
+
+using std::endl;
+using std::cout;
+using std::cin;
+
+class Printer{
+private:
+	char str[30];	//문자열 저장
+public:
+	void SetString(char *ch);	//문자열 설정
+	void ShowString();	//문자열 출력
+};
+
+
+/*
+	Printer.cpp
+*/
+#include "Printer.h"
+
+void Printer::SetString(char* ch)
+{
+	strcpy(str,ch);
+};
+void Printer::ShowString()
+{
+	cout<<str<<endl;
+}
+
+
+
+/*
+	main.cpp
+*/
+#include "Printer.h"
+
+int main(void)
+{
+	Printer pnt;
+	pnt.SetString("Hello World!");
+	pnt.ShowString();
+
+	pnt.SetString("I Love C++");
+	pnt.ShowString();
+	return 0;
+}

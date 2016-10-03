@@ -1,0 +1,90 @@
+/*
+	Calculator.h
+*/
+#include<iostream>
+
+using std::cout;
+using std::endl;
+
+class Calculator{
+private:
+	int AddCount;
+	int MinCount;
+	int DivCount;
+	int MulCount;
+
+public:
+	void Init();	//초기화
+	int Add(const int &a, const int &b);
+	int Min(const int &a, const int &b);
+	int Div(const int &a, const int &b);
+	int Mul(const int &a, const int &b);
+	void ShowOpCount();	//각각의 연산 횟수 출력
+	//double형 변수로 ㅠㅠ
+};
+
+
+
+
+/*
+	main.cpp
+*/
+#include "Calculator.h"
+
+int main(void)
+{
+	Calculator cal;	//멤버 변수 쓰레기값 초기화
+	cal.Init();	//멤버 변수 초기화
+
+	cout<<"3+5="<<cal.Add(3,5)<<endl;
+	cout<<"3/5="<<cal.Div(3,5)<<endl;
+	cout<<"12-4="<<cal.Min(12,4)<<endl;
+	cout<<"12/4="<<cal.Div(12,4)<<endl;
+
+	cal.ShowOpCount();
+
+	return 0;
+}
+
+
+
+
+/*
+	Calculator.cpp
+*/
+#include "Calculator.h"
+
+void Calculator::Init()	//초기화
+{
+	AddCount=0;
+	MinCount=0;
+	DivCount=0;
+	MulCount=0;
+}
+int Calculator::Add(const int &a, const int &b)
+{
+	return a+b;
+	AddCount++;
+}
+int Calculator::Min(const int &a, const int &b)
+{
+	return a-b;
+	MinCount++;
+}
+int Calculator::Div(const int &a, const int &b)
+{
+	return a/b;
+	DivCount++;
+}
+int Calculator::Mul(const int &a, const int &b)
+{
+	return a*b;
+	MulCount++;
+}
+void Calculator::ShowOpCount()	//각각의 연산 횟수 출력
+{
+	cout<<"덧셈 : "<<AddCount<<' ';
+	cout<<"뺄셈 : "<<MinCount<<' ';
+	cout<<"곱셈 : "<<MulCount<<' ';
+	cout<<"나눗셈 : "<<DivCount<<endl;
+}

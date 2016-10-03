@@ -1,0 +1,351 @@
+/*
+	ConstMember1.cpp
+	error 있음
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Student
+{
+	const int id;	//학번
+	int age;	//나이
+	char name[20];	//이름
+	char major[30];	//학과
+public:
+	Student(int _id, int _age, char* _name, char* _major)	//error
+	{
+		id=_id;	//error
+		age=_age;
+		strcpy(name,_name);
+		strcpy(major,_major);
+	}
+	void ShowData()
+	{
+		cout<<"이름 : "<<name<<endl;
+		cout<<"나이 : "<<age<<endl;
+		cout<<"학번 : "<<id<<endl;
+		cout<<"학과 : "<<major<<endl;
+	}
+};
+
+int main (void)
+{
+	Student Kim(20577065, 20, "Kim Gil Dong", "Computer Eng.");
+	Student Hong(200512065, 19, "Hong Gil Dong", "Electronics Eng.");
+
+	Kim.ShowData();
+	cout<<endl;
+	Hong.ShowData();
+
+	return 0;
+}
+
+
+
+/*
+	ConstMember2.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Student
+{
+	const int id;	//학번
+	int age;	//나이
+	char name[20];	//이름
+	char major[30];	//학과
+public:
+	Student(int _id, int _age, char* _name, char* _major)
+		:id(_id),age(_age)	
+	{
+		strcpy(name,_name);
+		strcpy(major,_major);
+	}
+	void ShowData() const
+	{
+		cout<<"이름 : "<<name<<endl;
+		cout<<"나이 : "<<age<<endl;
+		cout<<"학번 : "<<id<<endl;
+		cout<<"학과 : "<<major<<endl;
+	}
+};
+
+int main (void)
+{
+	Student Kim(20577065, 20, "Kim Gil Dong", "Computer Eng.");
+	Student Hong(200512065, 19, "Hong Gil Dong", "Electronics Eng.");
+
+	Kim.ShowData();
+	cout<<endl;
+	Hong.ShowData();
+
+	return 0;
+}
+
+
+/*
+	ConstMember3.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Count
+{
+	int cnt;
+public:
+	Count() :cnt(0) {}
+	int* GetPtr() const{
+		return &cnt;	//compile error
+	}
+	void Increment(){
+		cnt++;
+	}
+	void ShowData() const{
+		ShowIntro();	//compile error
+		cout<<cnt<<endl;
+	}
+	void ShowIntro(){
+		cout<<"현재 count의 값: "<<endl;
+	}
+};
+
+int main(void)
+{
+	Count count;
+	count.Increment();
+	count.ShowData();
+
+	return 0;
+}
+
+
+/*
+	ConstMember4.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Count
+{
+	int cnt;
+public:
+	Count() :cnt(0) {}
+	const int* GetPtr() const{
+		return &cnt;
+	}
+	void Increment(){
+		cnt++;
+	}
+	void ShowData() const{
+		ShowIntro();
+		cout<<cnt<<endl;
+	}
+	void ShowIntro() const{
+		cout<<"현재 count의 값: "<<endl;
+	}
+};
+
+int main(void)
+{
+	Count count;
+	count.Increment();
+	count.ShowData();
+
+	return 0;
+}
+
+
+/*
+	ConstObject.cpp
+	compile error!
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+	int num;
+public:
+	AAA(int _num) :num(_num){}
+	void Add(int n)
+	{
+		num+=n;
+	}
+	void ShowData()
+	{
+		cout<<num<<endl;
+	}
+};
+
+int main(void)
+{
+	const AAA aaa(10);
+	aaa.Add(10);	//Compile Error!
+	aaa.ShowData();	//Compile Error!
+
+	return 0;
+}
+
+
+/*
+	ConstOverloading.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+	int num;
+public:
+	AAA(int _num) :num(_num){}
+	void ShowData(){
+		cout<<"void ShowDAta() 호출"<<endl;
+		cout<<num<<endl;
+	}
+	void ShowData() const{
+		cout<<"void ShowData() const 호출"<<endl;
+		cout<<num<<endl;
+	}
+};
+
+int main(void)
+{
+	const AAA aaa1(20);
+	AAA aaa2(70);
+
+	aaa1.ShowData();
+	aaa2.ShowData();
+
+	return 0;
+}
+
+
+/*
+	PersonCount1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+int count=1;
+
+class Person
+{
+	char name[20];
+	int age;
+public:
+	Person(char* _name, int _age)	// :age(_age)
+	{
+		strcpy(name,_name);
+		age=_age;
+		cout<<count++<<"번째 Person 객체 생성"<<endl;
+	}
+	void ShowData(){
+		cout<<"이름 : "<<name;
+		cout<<"나이 : "<<age;
+	}
+};
+
+int main(void)
+{
+	Person p1("Lee",13);
+	Person p2("Hong",22);
+
+	return 0;
+}
+
+
+/*
+	PersonCount2.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Person
+{
+	char name[20];
+	int age;
+	int count;
+public:
+	Person(char* _name, int _age)	// :age(_age)
+	{
+		count=1;	//1만 출력될상
+		strcpy(name,_name);
+		age=_age;
+		cout<<count++<<"번째 Person 객체 생성"<<endl;
+	}
+	void ShowData(){
+		cout<<"이름 : "<<name;
+		cout<<"나이 : "<<age;
+	}
+};
+
+int main(void)
+{
+	Person p1("Lee",13);
+	Person p2("Hong",22);
+
+	return 0;
+}
+
+
+
+/*
+	explicit.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+public:
+	explicit AAA(int n)
+	{
+		cout<<"explicit AAA(int n)"<<endl;
+	}
+};
+
+int main (void)
+{
+	AAA a1=10;	//묵시적으로 변환 : AAA a1(10);
+	
+	return 0;
+}
+
+
+
+/*
+	mutable.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+private:
+	mutable int val1;
+	int val2;
+public:
+	void SetDAta(int a, int b) const
+	{
+		val1=a;	//val1이 mutable이므로 OK!
+		val2=b;	//Error!
+	}
+};
+
+int main(void)
+{
+	AAA a1;
+	a1.SetDAta(10,20);
+
+	return 0;
+}

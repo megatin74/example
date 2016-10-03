@@ -1,0 +1,72 @@
+/*
+	연습문제 7-2
+	main.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Person
+{
+protected:
+	int age;
+	char* name;
+public:
+	Person(int _age=1,char* _name="noname")
+	{
+		age=_age;
+		name=new char[strlen(_name)+1];
+		strcpy(name,_name);
+	}
+	~Person()
+	{
+		delete[] name;
+	}
+	int GetAge() const{
+		return age;
+	}
+	const char* GetName() const{
+		return name;
+	}
+};
+
+
+class Student :public Person
+{
+	char* major;	//전공
+public:
+	Student(int _age, char* _name, char* _major)
+		:Person(_age,_name)
+	{
+		major=new char[strlen(_major)+1];
+		strcpy(major,_major);
+	}
+	Student(const Student& st)
+		:Person(st.age,st.name)
+	{
+		major=new char[strlen(st.major)+1];
+		strcpy(major,st.major);
+	}
+	~Student()
+	{
+		delete[] major;
+	}
+	const char* GetMajor() const{
+		return major;
+	}
+	void ShowData() const{
+		cout<<"이름 : "<<name<<endl;
+		cout<<"나이 : "<<age<<endl;
+		cout<<"전공 : "<<major<<endl;
+	}
+};
+
+int main(void)
+{
+	Student Hong1(20, "Hong Gil Dong","computer");
+	Hong1.ShowData();
+	Student Hong2=Hong1;
+	
+
+	return 0;
+}

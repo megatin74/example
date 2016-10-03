@@ -1,0 +1,125 @@
+/*
+	AccManager.cpp
+*/
+#include "AccManager.h"
+#include<iostream>
+#include "MinException.h"
+#include "InsuffException.h"
+using std::endl;
+using std::cout;
+using std::cin;
+
+void AccManager::PrintMenu()	//목록출력
+{
+	cout<<"***** 메뉴 목록 *****"<<endl;
+	cout<<"기능 1. 계좌 개설"<<endl;
+	cout<<"기능 2. 입     금"<<endl;
+	cout<<"기능 3. 출     금"<<endl;
+	cout<<"기능 4. 전체 고객 잔액 조회"<<endl;
+	cout<<"기능 5. 종     료"<<endl;
+}
+
+void AccManager::MakeAccount()	//계좌개설
+{
+	string name;
+	int id;
+	int balance;
+	int select;
+
+	cout<<"***** 계좌 종류 *****"<<endl;
+	cout<<"기능 1. 일반 계좌"<<endl;
+	cout<<"기능 2. 신용 계좌"<<endl;
+	cout<<"기능 3. 기부 계좌"<<endl;
+	cout<<"선택할 기능 : ";
+	cin>>select;
+
+	if(0>select||select>3){
+		cout<<"잘못된 선택을 하셨습니다."<<endl;
+		return;
+	}
+
+	cout<<"***** 계좌 개설 *****"<<endl;
+	cout<<"성    함 : ";	cin>>name;
+	cout<<"계좌번호 : ";	cin>>id;
+	cout<<"입금금액 : ";    cin>>balance;
+	cout<<endl;
+
+	if(select==1)
+		ctr.Insert(new Account(id,name,balance));
+	if(select==2)	//신용 계좌
+		ctr.Insert(new FaithAccount(id,name,balance));
+	if(select==3)	//기부 계좌
+		ctr.Insert(new ContriAccount(id,name,balance));		
+}
+
+void AccManager::Deposit()	//입금
+{
+	int find;
+	int i;	//for문
+	cout<<"***** 계좌 입금 *****"<<endl;
+	cout<<"입금할 계좌번호 : ";
+	cin>>find;
+
+	try{
+		for(i=0;i<ctr.GetElemSum();i++)
+		{
+			if(find==ctr.GetItem(i)->GetID())
+			{
+				double add;
+				cout<<"성    함 : "<<ctr.GetItem(i)->GetName()<<endl;
+				cout<<"입금할 금액 : ";	cin>>add;
+				ctr.GetItem(i)->AddBalance(add);
+				cout<<"잔    액 : "<<ctr.GetItem(i)->GetBalance()<<endl;
+				cout<<endl;
+			
+				return;
+			}
+		}
+		cout<<"잘못된 계좌번호를 입력하셨습니다."<<endl;
+		cout<<endl;
+	}
+	catch(MinException& ex){
+		ex.What();
+	}
+}
+
+void AccManager::Withdraw()	//출금
+{
+	int find;
+	int i;	//for문
+	cout<<"***** 계좌 출금 *****"<<endl;
+	cout<<"출금할 계좌번호 : ";
+	cin>>find;
+
+	try{
+		for(i=0;i<ctr.GetElemSum();i++)
+		{
+			if(find==ctr.GetItem(i)->GetID())
+			{
+				double min;
+				cout<<"성    함 : "<<ctr.GetItem(i)->GetName()<<endl;
+				cout<<"출금할 금액 : ";	cin>>min;
+				ctr.GetItem(i)->MinBalance(min);
+				cout<<"잔    액 : "<<ctr.GetItem(i)->GetBalance()<<endl;
+				cout<<endl;
+				return;
+			}
+		}
+		cout<<"잘못된 계좌번호를 입력하셨습니다."<<endl;
+		cout<<endl;
+	}
+	catch(MinException& ex){
+		ex.What();
+	}
+	catch(InsuffException& ex){
+		ex.What();
+	}
+}
+
+void AccManager::Inquire()	//잔액조회
+{
+	cout<<"***** 잔액 조회 *****"<<endl;
+	for(int i=0;i<ctr.GetElemSum();i++)
+		ctr.GetItem(i)->ShowAllData();
+	cout<<endl;
+}

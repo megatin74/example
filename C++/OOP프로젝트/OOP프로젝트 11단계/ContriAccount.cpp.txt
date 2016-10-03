@@ -1,0 +1,36 @@
+/*
+	ContriAccount.cpp
+*/
+#include "ContriAccount.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+ContriAccount::ContriAccount(int id, string name, double balance)
+:Account(id,name,0.99*balance)
+{
+	contribution=0.01*balance;
+}
+
+double ContriAccount::GetContri() const
+{
+	return contribution;
+}
+void ContriAccount::AddBalance(double add)	//입금완료
+{
+	Account::AddBalance(0.99*add);
+	contribution+=0.01*add;
+	cout<<"기부내역 : "<<contribution<<endl;
+}
+void ContriAccount::ShowAllData() const
+{
+	cout<<"***** 기부 계좌 *****"<<endl;
+	cout<<"계좌번호 : "<<GetID()<<endl;
+	cout<<"성    함 : "<<GetName()<<endl;
+	cout<<"잔    액 : "<<GetBalance()<<endl;
+	cout<<"기부내역 : "<<contribution<<endl;
+	cout<<endl;
+}
+
+

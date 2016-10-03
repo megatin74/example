@@ -1,0 +1,95 @@
+/*
+	namespace_example.cpp
+*/
+
+#include<iostream>
+
+void function(void)
+{
+	std::cout<<"A.com에서 정의한 함수 "<<std::endl;
+}
+
+void function(void)
+{
+	std::cout<<"B.com에서 정의한 함수 "<<std::endl;
+}
+
+int main (void)
+{
+	function();
+	//function이라는 이름의 같은 함수가 두개 있어 컴파일 타임에 에러
+	return 0;
+}
+
+
+/*
+	namespace1.cpp
+*/
+
+#include<iostream>
+
+namespace A_COM
+{
+	void function(void)
+	{
+		std::cout<<"A.com에서 정의한 함수"<<std::endl;
+	}
+}
+
+namespace B_COM
+{
+	void function(void)
+	{
+		std::cout<<"B.com에서 정의한 함수 "<<std::endl;
+	}
+}
+
+int main(void)
+{
+	A_COM::function();	//만약에 하나만 있을때는 호출할때
+			//이름공간 제거해도 되나
+			//안된다
+	B_COM::function();
+	return 0;
+}
+
+
+/*
+	namespace2.cpp
+*/
+
+#include<iostream>
+
+namespace A_COM
+{
+	void function(void);
+}
+
+namespace B_COM
+{
+	void function(void);
+}
+
+int main (void)
+{
+	A_COM::function();
+	B_COM::function();
+	return 0;
+}
+
+namespace A_COM
+{
+	void function(void)
+	{
+		std::cout<<"A.com에서 정의한 함수"<<std::endl;
+	}
+}
+
+namespace B_COM
+{
+	void function(void)
+	{
+		std::cout<<"B.com에서 정의한 함수"<<std::endl;
+	}
+}
+

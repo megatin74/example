@@ -1,0 +1,924 @@
+/*
+	InfoHiding1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+class Point
+{
+public:
+	int x;	//0~100
+	int y;	//0~100
+};
+
+int main (void)
+{
+	int x, y;
+	cout<<"좌표 입력 : ";
+	cin>>x>>y;
+	
+	Point p;
+	p.x=x;	//문제의 원인
+	p.y=y;	//멤버의 외부 접근을 허용
+
+	cout<<"입력된 데이터를 이용해서 그림을 그림"<<endl;
+	return 0;
+}
+
+/*
+	InfoHiding2.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+class Point
+{
+	int x;	//0~100
+	int y;	//0~100
+public:
+	int GetX(){return x;}
+	int GetY(){return y;}
+	void SetX(int _x){x=_x;}
+	void SetY(int _y){y=_y;}
+};	
+
+int main (void)
+{
+	int x, y;
+	cout<<"좌표 입력 : ";
+	cin>>x>>y;
+	
+	Point p;
+	p.SetX(x);	//문제의 원인
+	p.SetY(y);	//멤버의 외부 접근을 허용
+
+	cout<<"입력된 데이터를 이용해서 그림을 그림"<<endl;
+	return 0;
+}
+
+
+/*
+	InfoHiding3.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+class Point
+{
+	int x;	//0~100
+	int y;	//0~100
+public:
+	int GetX(){return x;}
+	int GetY(){return y;}
+
+	void SetX(int _x);
+	void SetY(int _y);
+};	
+void Point::SetX(int _x)
+{
+	if(_x<0||_x>100)
+	{
+		cout<<"X 좌표 입력 오류, 확인 요망"<<endl;
+		return;
+	}
+	x=_x;
+}
+void Point::SetY(int _y)
+{
+	if(_y<0||_y>100)
+	{
+		cout<<"Y 좌표 입력 오류, 확인 요망"<<endl;
+		return;
+	}
+	y=_y;
+}
+
+
+int main (void)
+{
+	int x, y;
+	cout<<"좌표 입력 : ";
+	cin>>x>>y;
+	
+	Point p;
+	p.SetX(x);	//문제의 원인
+	p.SetY(y);	//멤버의 외부 접근을 허용
+
+	cout<<"입력된 데이터를 이용해서 그림을 그림"<<endl;
+	return 0;
+}
+
+/*
+	Encapsulation1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+class Point
+{
+	int x;	//0~100
+	int y;	//0~100
+public:
+	int GetX(){return x;}
+	int GetY(){return y;}
+
+	void SetX(int _x);
+	void SetY(int _y);
+};
+void Point::SetX(int _x)
+{
+	if(_x<0||_x>100)
+	{
+		cout<<"X 좌표 입력 오류, 확인 요망"<<endl;
+		return;
+	}
+	x=_x;
+}
+void Point::SetY(int _y)
+{
+	if(_y<0||_y>100)
+	{
+		cout<<"Y 좌표 입력 오류, 확인 요망"<<endl;
+		return;
+	}
+	y=_y;
+}
+
+class PointShow
+{
+public:
+	void ShowData(Point p)	//void ShowData(Point& p)
+	{
+		cout<<"x좌표: "<<p.GetX()<<endl;
+		cout<<"y좌표: "<<p.GetY()<<endl;
+	}
+};
+
+int main(void)
+{
+	int x,y;
+	cout<<"좌표 입력 : ";
+	cin>>x>>y;
+
+	Point p;
+	p.SetX(x);
+	p.SetY(y);
+
+	PointShow show;
+	show.ShowData(p);
+
+	return 0;
+}
+
+/*
+	Encapsulation2.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+class Point
+{
+	int x;	//0~100
+	int y;	//0~100
+public:
+	int GetX(){return x;}
+	int GetY(){return y;}
+
+	void SetX(int _x);
+	void SetY(int _y);
+	void ShowData();
+};
+
+void Point::SetX(int _x)
+{
+	if(_x<0||_x>100)
+	{
+		cout<<"X 좌표 입력 오류, 확인 요망"<<endl;
+		return;
+	}
+	x=_x;
+}
+void Point::SetY(int _y)
+{
+	if(_y<0||_y>100)
+	{
+		cout<<"Y 좌표 입력 오류, 확인 요망"<<endl;
+		return;
+	}
+	y=_y;
+}
+void Point::ShowData()	//void ShowData(Point& p)
+{
+	cout<<"x좌표: "<<GetX()<<endl;
+	cout<<"y좌표: "<<GetY()<<endl;
+}
+
+
+int main(void)
+{
+	int x,y;
+	cout<<"좌표 입력 : ";
+	cin>>x>>y;
+
+	Point p;
+	p.SetX(x);
+	p.SetY(y);
+	p.ShowData();
+
+	return 0;
+}
+
+/*
+	Person1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+const SIZE=20;
+
+class Person
+{
+	char name[SIZE];
+	char phone[SIZE];
+	int age;
+public:
+	void ShowData();
+};
+
+void Person::ShowData()
+{
+	cout<<"name  : "<<name<<endl;
+	cout<<"phone : "<<phone<<endl;
+	cout<<"age   : "<<age<<endl;
+}
+
+int main (void)
+{
+	Person p={"KIM","013-113-1113",22};
+	p.ShowData();
+
+	return 0;
+}
+
+
+/*
+	Person2.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+const SIZE=20;
+
+class Person
+{
+	char name[SIZE];
+	char phone[SIZE];
+	int age;
+public:
+	void ShowData();
+	void SetData(char* _name,char* _phone,int _age);
+};
+
+void Person::ShowData()
+{
+	cout<<"name  : "<<name<<endl;
+	cout<<"phone : "<<phone<<endl;
+	cout<<"age   : "<<age<<endl;
+}
+void Person::SetData(char* _name,char* _phone,int _age)
+{
+	strcpy(name,_name);
+	strcpy(phone,_phone);
+	age=_age;
+}
+
+
+int main (void)
+{
+	Person p;
+	p.SetData("KIM","013-113-1113",22);
+	p.ShowData();
+
+	return 0;
+}
+
+
+/*
+	Constructor1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+	int i,j;
+public:
+	AAA()	//생성자
+	{
+		cout<<"생성자 호출"<<endl;
+		i=10,j=20;
+	}
+
+	void ShowData()
+	{
+		cout<<i<<' '<<j<<endl;
+	}
+};
+
+
+int main(void)
+{
+	AAA aaa;
+	aaa.ShowData();
+
+	return 0;
+}
+
+/*
+	Constructor2.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+	int i,j;
+public:
+	AAA(int _i, int _j)	//생성자
+	{
+		cout<<"생성자 호출"<<endl;
+		i=_i,j=_j;
+	}
+
+	void ShowData()
+	{
+		cout<<i<<' '<<j<<endl;
+	}
+};
+
+
+int main(void)
+{
+	AAA aaa(111,222);
+	aaa.ShowData();
+
+	return 0;
+}
+
+
+/*
+	Person3.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+const SIZE=20;
+
+class Person
+{
+	char name[SIZE];
+	char phone[SIZE];
+	int age;
+public:
+	void ShowData();
+	Person(char* _name,char* _phone,int _age);
+};
+
+void Person::ShowData()
+{
+	cout<<"name  : "<<name<<endl;
+	cout<<"phone : "<<phone<<endl;
+	cout<<"age   : "<<age<<endl;
+}
+Person::Person(char* _name,char* _phone,int _age)
+{
+	strcpy(name,_name);
+	strcpy(phone,_phone);
+	age=_age;
+}
+
+
+int main (void)
+{
+	Person p("KIM","013-113-1113",22);
+	p.ShowData();
+
+	return 0;
+}
+
+/*
+	Person4.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+class Person
+{
+	char *name;
+	char *phone;
+	int age;
+public:
+	void ShowData();
+	Person(char* _name,char* _phone,int _age);
+};
+
+void Person::ShowData()
+{
+	cout<<"name  : "<<name<<endl;
+	cout<<"phone : "<<phone<<endl;
+	cout<<"age   : "<<age<<endl;
+}
+Person::Person(char* _name,char* _phone,int _age)
+{
+	name=new char[strlen(_name)+1];
+	strcpy(name,_name);
+	phone=new char[strlen(_phone)+1];
+	strcpy(phone,_phone);
+	age=_age;
+}
+
+
+int main (void)
+{
+	Person p("KIM","013-113-1113",22);
+	p.ShowData();
+
+	return 0;
+}
+
+/*
+	Default1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Point
+{
+	int x, y;
+public:
+	Point(int _x, int _y)
+	{
+		x=_x, y=_y;
+	}
+	void ShowData()
+	{
+		cout<<x<<' '<<y<<endl;
+	}
+};
+
+int main(void)
+{
+	Point p1(10, 20);
+	p1.ShowData();
+
+	Point p2;	//error
+	p2.ShowData();
+
+	return 0;
+}
+
+/*
+	Default2.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Point
+{
+	int x, y;
+public:
+	Point()
+	{
+		x=y=0;
+	}
+	Point(int _x, int _y)
+	{
+		x=_x, y=_y;
+	}
+	void ShowData()
+	{
+		cout<<x<<' '<<y<<endl;
+	}
+};
+
+int main(void)
+{
+	Point p1(10, 20);
+	p1.ShowData();
+
+	Point p2;	//Default1.cpp의 문제점 해결
+	p2.ShowData();
+
+	return 0;
+}
+
+/*
+	Default3.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Point
+{
+	int x, y;
+public:
+	Point(int _x=0, int _y=0)
+	{
+		x=_x, y=_y;
+	}
+	void ShowData()
+	{
+		cout<<x<<' '<<y<<endl;
+	}
+};
+
+int main(void)
+{
+	Point p1(10, 20);
+	p1.ShowData();
+
+	Point p2;	//Default1.cpp의 문제점 해결
+	p2.ShowData();
+
+	Point p3(10);
+	p3.ShowData();
+
+	return 0;
+}
+
+
+/*
+	Person5.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+class Person
+{
+	char *name;
+	char *phone;
+	int age;
+public:
+	void ShowData();
+	Person(char* _name,char* _phone,int _age);
+	void DelMemory();
+};
+
+void Person::ShowData()
+{
+	cout<<"name  : "<<name<<endl;
+	cout<<"phone : "<<phone<<endl;
+	cout<<"age   : "<<age<<endl;
+}
+Person::Person(char* _name,char* _phone,int _age)
+{
+	name=new char[strlen(_name)+1];
+	strcpy(name,_name);
+	phone=new char[strlen(_phone)+1];
+	strcpy(phone,_phone);
+	age=_age;
+}
+void Person::DelMemory()
+{
+	delete[] name;
+	delete[] phone;
+}
+
+
+int main (void)
+{
+	Person p("KIM","013-113-1113",22);
+	p.ShowData();
+	p.DelMemory();
+
+	return 0;
+}
+
+
+/*
+	Person6.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Person
+{
+	char *name;
+	char *phone;
+	int age;
+public:
+	void ShowData();
+	Person(char* _name,char* _phone,int _age);
+	~Person();
+};
+
+void Person::ShowData()
+{
+	cout<<"name  : "<<name<<endl;
+	cout<<"phone : "<<phone<<endl;
+	cout<<"age   : "<<age<<endl;
+}
+Person::Person(char* _name,char* _phone,int _age)
+{
+	name=new char[strlen(_name)+1];
+	strcpy(name,_name);
+
+	phone=new char[strlen(_phone)+1];
+	strcpy(phone,_phone);
+	
+	age=_age;
+}
+Person::~Person()
+{
+	delete[] name;
+	delete[] phone;
+}
+
+
+int main (void)
+{
+	Person p("KIM","013-113-1113",22);
+	p.ShowData();
+
+	return 0;
+}
+
+/*
+	Destructor.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+public:
+	AAA()	//생성자
+	{
+		cout<<"생성자 호출"<<endl;
+	}
+	~AAA()
+	{
+		cout<<"소멸자 호출"<<endl;
+	}
+};
+
+int main(void)
+{
+	AAA aaa1;	//"생성자 호출" 메시지 출력
+	AAA aaa2;	//"소멸자 호출" 메시지 출력
+
+	return 0;	//return 과 동시에 aaa1,aaa2 객체 소멸
+}
+
+
+/*
+	PointArr1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Point
+{
+	int x;
+	int y;
+public:
+	Point(){
+		cout<<"Point() call!"<<endl;
+		x=y=0;
+	}
+	Point(int _x, int _y){
+		x=_x;
+		y=_y;
+	}
+
+	int GetX(){return x;}
+	int GetY(){return y;}
+	void SetX(int _x){x=_x;}
+	void SetY(int _y){y=_y;}
+};
+
+int main(void)
+{
+	Point arr[5];
+
+	for(int i=0; i<5;i++)
+	{
+		arr[i].SetX(i*2);
+		arr[i].SetY(i*3);
+	}
+	for(int j=0; j<5;j++)
+	{
+		cout<<"x: "<<arr[j].GetX()<<' ';
+		cout<<"y: "<<arr[j].GetY()<<endl;
+	}
+
+	return 0;
+}
+
+
+/*
+	PointArr2.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Point
+{
+	int x;
+	int y;
+public:
+	Point(){
+		cout<<"Point() call!"<<endl;
+		x=y=0;
+	}
+	Point(int _x, int _y){
+		x=_x;
+		y=_y;
+	}
+
+	int GetX(){return x;}
+	int GetY(){return y;}
+	void SetX(int _x){x=_x;}
+	void SetY(int _y){y=_y;}
+};
+
+int main(void)
+{
+	Point* arr[5];
+
+	for(int i=0; i<5;i++)
+	{
+		arr[i]=new Point(i*2, i*3);	//new에 의한 객체 동적 생성
+	}
+	for(int j=0; j<5;j++)
+	{
+		cout<<"x: "<<arr[j]->GetX()<<' ';
+		cout<<"y: "<<arr[j]->GetY()<<endl;
+	}
+	for(int k=0; k<5;k++)
+	{
+		delete arr[k];
+	}
+	return 0;
+}
+
+
+/*
+	this_under.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Person
+{
+public:
+	Person* GetThis(){
+		return this;	//this 포인터를 리턴
+	}
+};
+
+int main(void)
+{
+	cout<<"***** p1의 정보 *****"<<endl;
+	Person* p1=new Person();	
+	cout<<"포인터 p1 : "<<p1<<endl;
+	cout<<"p1의 this : "<<p1->GetThis()<<endl;
+
+	cout<<"***** p2의 정보 *****"<<endl;
+	Person* p2=new Person();
+	cout<<"포인터 p2 : "<<p2<<endl;
+	cout<<"p2의 this : "<<p2->GetThis()<<endl;
+
+	return 0;
+}
+
+
+/*
+	app_this.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Data
+{
+	int aaa;
+	int bbb;
+public:
+	Data(int aaa, int bbb){
+		//aaa=aaa;
+		this->aaa=aaa;
+		//bbb=bbb;
+		this->bbb=bbb;
+	}
+	void PrintAll(){
+		cout<<aaa<<' '<<bbb<<endl;
+	}
+};
+
+int main (void)
+{
+	Data d(100,200);
+	d.PrintAll();
+
+	return 0;
+}
+
+/*
+	friend1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Counter
+{
+	int val;
+public:
+	Counter(){
+		val=0;
+	}
+	void Print() const{
+		cout<<val<<endl;
+	}
+
+	friend void SetX(Counter& c, int val);//friend 선언
+};
+
+void SetX(Counter& c, int val)	//전역 함수
+{
+	c.val=val;
+}
+
+int main(void)
+{
+	Counter cnt;
+	cnt.Print();
+
+	SetX(cnt, 2002);
+	cnt.Print();
+
+	return 0;
+}
+
+/*
+	friend2.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+private:
+	int data;
+	friend class BBB;
+};
+
+class BBB
+{
+public:
+	void SetData(AAA& aaa, int val){
+		aaa.data=val;//class AAA의 private 영역 접근!
+	}
+};
+
+int main (void)
+{
+	AAA aaa;
+	BBB bbb;
+
+	bbb.SetData(aaa,10);
+
+	return 0;
+}

@@ -1,0 +1,66 @@
+/*
+	Account.cpp
+*/
+#include "Account.h"
+#include "MinException.h"
+#include "InsuffException.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+Account::Account(int id, string name, double balance)
+{
+	this->id=id;
+	this->name=name;
+	this->balance=balance;
+}
+Account::Account(const Account& account)
+{
+	id=account.id;
+	name=account.name;
+	balance=account.balance;
+}
+Account& Account::operator=(const Account& account)
+{
+	id=account.id;
+	name=account.name;
+	balance=account.balance;
+
+	return *this;
+}
+int Account::GetID() const	//계좌전달
+{
+	return id;
+}
+const string Account::GetName() const	//이름전달
+{
+	return name;
+}
+double Account::GetBalance() const	//잔액전달
+{
+	return balance;
+}
+void Account::AddBalance(double add)	//잔액입금
+{
+	if(add<0)
+		throw MinException(add);
+	balance+=add;
+}
+void Account::MinBalance(double min)	//잔액출금
+{
+	if(min>balance)
+		throw InsuffException(balance,min);
+	if(min<0)
+		throw MinException(min);
+
+	balance-=min;
+}
+void Account::ShowAllData() const
+{
+	cout<<"***** 일반 계좌 *****"<<endl;
+	cout<<"계좌번호 : "<<id<<endl;
+	cout<<"성    함 : "<<name<<endl;
+	cout<<"잔    액 : "<<balance<<endl;
+	cout<<endl;
+}

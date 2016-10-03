@@ -1,0 +1,55 @@
+/*
+	연습문제 4-1 문제2
+	main.cpp
+*/
+#include "Time.h"
+
+int main(void)
+{
+	Time time1(10);	//10h 0m 0s
+	Time time2(10,20);	//10h 20m 0s
+	Time time3(10,20,30);	//10h 20m 30s
+
+	time2.ShowTime();	//[h m s]
+	time2.ShowTimeinSec();	//3600*h+60*m+s
+
+	return 0;
+}
+
+
+
+/*
+	Time.h
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Time{
+	int hour;
+	int minute;
+	int second;
+public:
+	Time(int _hour=0,int _minute=0,int _second=0);
+	void ShowTime();
+	void ShowTimeinSec();
+};
+/*
+	Time.cpp
+*/
+#include "Time.h"
+
+Time::Time(int _hour,int _minute,int _second)
+{
+	hour=_hour;
+	minute=_minute;
+	second=_second;
+}
+void Time::ShowTime()
+{
+	cout<<"["<<hour<<"시 "<<minute<<"분 "<<second<<"초]"<<endl;
+}
+void Time::ShowTimeinSec()
+{
+	cout<<(3600*hour+60*minute+second)<<"초"<<endl;
+}

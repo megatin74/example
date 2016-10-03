@@ -1,0 +1,14 @@
+/*
+	MinException.h
+*/
+#ifndef _MIN_EXCEPTION_H_
+#define _MIN_EXCEPTION_H_
+
+class MinException
+{
+	double ex_val;
+public:
+	MinException(double val);
+	void What();
+};
+#endif

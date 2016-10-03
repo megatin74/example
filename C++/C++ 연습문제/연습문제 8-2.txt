@@ -1,0 +1,42 @@
+/*
+	연습문제 8-2
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+
+class Person
+{
+public:
+	void Sleep(){
+		cout<<"Sleep"<<endl;
+	}
+};
+
+class Student :public Person
+{
+public:
+	void Study(){
+		cout<<"Study"<<endl;
+	}
+};
+
+class PartTimeStd :public Student
+{
+public:
+	void Work(){
+		cout<<"Work"<<endl;
+	}
+};
+
+int main(void)
+{
+	Student* p2=new PartTimeStd;
+
+	p2->Sleep();
+	p2->Study();
+	//p2->Work();
+	//Student class의 범위는 Work함수를 호출하는 영역까지 닿아있지 않다
+
+	return 0;
+}

@@ -1,0 +1,113 @@
+/*
+	연습문제 4-2
+	main.cpp
+*/
+#include "NameCard.h"
+
+int main (void)
+{
+	NameCard* arr[3];
+
+	for(int i=0;i<3;i++)
+	{
+		arr[i]=new NameCard();
+		arr[i]->SetData();
+	}
+	for(int j=0;j<3;j++)
+		arr[j]->ShowData();
+		
+	return 0;
+}
+
+
+
+
+
+/*
+	NameCard.h
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+using std::cin;
+
+class NameCard{
+	char* name;
+	char* phone;
+	char* address;
+	char* career;
+public:
+	NameCard(){}
+	NameCard(char* name,char* phone,char* address,char* career);
+	~NameCard();
+	void SetData();
+	void ShowData();
+
+};
+
+/*
+	NameCard.cpp
+*/
+#include "NameCard.h"
+
+#define SIZE 20	//이거 없애고 포인터로는 어떻게 하나
+
+NameCard::NameCard(char* name,char* phone,char* address,char* career)
+{
+	this->name=new char[strlen(name)+1];
+	strcpy(this->name,name);
+
+	this->phone=new char[strlen(phone)+1];
+	strcpy(this->phone,phone);
+
+	this->address=new char[strlen(address)+1];
+	strcpy(this->address,address);
+
+	this->career=new char[strlen(career)+1];
+	strcpy(this->career,career);
+}
+NameCard::~NameCard()
+{
+	delete[] name;
+	delete[] phone;
+	delete[] address;
+	delete[] career;
+	cout<<"OKAY"<<endl;	//ex
+}
+void NameCard::SetData()
+{
+	cout<<"***** 정보 입력 *****"<<endl;
+	char name[SIZE];
+	char phone[SIZE];
+	char address[SIZE];
+	char career[SIZE];
+
+	cout<<"이    름 : ";
+	cin>>name;
+	this->name=new char[strlen(name)+1];
+	strcpy(this->name,name);
+
+	cout<<"전화번호 : ";
+	cin>>phone;
+	this->phone=new char[strlen(phone)+1];
+	strcpy(this->phone,phone);
+
+	cout<<"주    소 : ";
+	cin>>address;
+	this->address=new char[strlen(address)+1];
+	strcpy(this->address,address);
+
+	cout<<"직    급 : ";
+	cin>>career;
+	this->career=new char[strlen(career)+1];
+	strcpy(this->career,career);
+}
+void NameCard::ShowData()
+{
+	cout<<"***** 정보 출력 *****"<<endl;
+	cout<<"이    름 : "<<name<<endl;
+	cout<<"전화번호 : "<<phone<<endl;
+	cout<<"주    소 : "<<address<<endl;
+	cout<<"직    급 : "<<career<<endl;
+	cout<<endl;
+}

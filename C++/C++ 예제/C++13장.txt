@@ -1,0 +1,665 @@
+/*
+	unhandling.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+int main(void)
+{
+	int a, b;
+	cout<<"두 개의 숫자 입력: ";
+	cin>>a>>b;
+
+	cout<<"a/b의 몫: "<<a/b<<endl;
+	cout<<"a/b의 나머지: "<<a%b<<endl;
+
+	return 0;
+}
+
+
+
+
+/*
+	unhandling1.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+int main(void)
+{
+	int a, b;
+	cout<<"두 개의 숫자 입력: ";
+	cin>>a>>b;
+
+	if(b==0){	//예외 상황이 발생한다면...
+		cout<<"입력 오류! 다시 실행하세요."<<endl;
+	}
+	else{	//예외 상황이 발생하지 않는다면...
+		cout<<"a/b의 몫: "<<a/b<<endl;
+		cout<<"a/b의 나머지: "<<a%b<<endl;
+	}
+
+	return 0;
+}
+
+
+
+/*
+	OOhandling.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+int main(void)
+{
+	int a, b;
+	cout<<"두 개의 숫자 입력: ";
+	cin>>a>>b;
+
+	try{
+		if(b==0)
+			throw b;
+		cout<<"a/b의 몫: "<<a/b<<endl;
+		cout<<"a/b의 나머지: "<<a%b<<endl;		
+	}
+	catch(int exception){
+		cout<<exception<<"입력."<<endl;
+		cout<<"입력 오류! 다시 실행하세요."<<endl;
+	}
+
+	return 0;
+}
+
+
+
+
+/*
+	OOhandlingflow.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+int main(void)
+{
+	int a, b;
+
+	cout<<"두 개의 숫자 입력: ";
+	cin>>a>>b;
+
+	try{
+		cout<<"try block start"<<endl;
+
+		if(b==0)
+			throw b;
+		cout<<"a/b의 몫: "<<a/b<<endl;
+		cout<<"a/b의 나머지: "<<a%b<<endl;		
+
+		cout<<"try block end"<<endl;
+	}
+	catch(int exception){
+		cout<<"catch block start"<<endl;
+
+		cout<<exception<<"입력."<<endl;
+		cout<<"입력 오류! 다시 실행하세요."<<endl;
+	}
+	cout<<"THANK YOU"<<endl;
+
+	return 0;
+}
+
+
+
+/*
+	pass_extp.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+int divide(int a, int b);	//a,b의 몫만 반환
+
+int main(void)
+{
+	int a, b;
+
+	cout<<"두 개의 숫자 입력: ";
+	cin>>a>>b;
+
+	try{
+		cout<<"a/b의 몫: "<<divide(a,b)<<endl;
+	}
+	catch(int exception){
+		cout<<"catch block start"<<endl;
+
+		cout<<exception<<"입력."<<endl;
+		cout<<"입력 오류! 다시 실행하세요."<<endl;
+	}
+	cout<<"THANK YOU"<<endl;
+
+	return 0;
+}
+
+int divide(int a, int b)
+{
+	if(b==0)
+		throw b;
+	return a/b;
+}
+
+
+
+
+/*
+	unhandle_exp1.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+int divide(int a, int b);
+
+int main(void)
+{
+	int a, b;
+
+	cout<<"두 개의 숫자 입력: ";
+	cin>>a>>b;
+	cout<<"a/b의 몫: "<<divide(a,b)<<endl;
+
+	return 0;
+}
+
+int divide(int a, int b)
+{
+	if(b==0)
+		throw b;
+	return a/b;
+}
+
+
+
+/*
+	unhandle_exp1.5
+*/
+#include<iostream>
+#include<stdlib.h>	//abort 함수를 선언하고 있는 헤더 파일
+using namespace std;
+
+int main(void)
+{
+	abort();	//에러 메시지를 출력하고 나서 프로그램 종료!
+	cout<<"END!"<<endl;	//출력되지 않는다!	
+	return 0;
+}
+
+
+
+
+/*
+	unhandle_exp2.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+int divide(int a, int b);	//a/b의 몫만 반환
+
+int main(void)
+{
+	int a,b;
+
+	cout<<"두 개의 숫자 입력: ";
+	cin>>a>>b;
+	try{
+		cout<<"a/b의 몫: "<<divide(a,b)<<endl;
+	}
+	catch(char exception){	//char형 예외를 처리하겠다!
+		cout<<exception<<"입력. "<<endl;
+		cout<<"입력 오류! 다시 실행하세요."<<endl;
+	}
+
+	return 0;
+}
+
+int divide(int a, int b)
+{
+	if(b==0)
+		throw b;
+	return a/b;
+}
+
+
+
+
+/*
+	catch_understand.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+int main(void)
+{
+	int num;
+	cout<<"input number: ";
+	cin>>num;
+
+	try{
+		if(num>0)
+			throw 10;	//int형 예외 전달
+		else
+			throw 'm';	//char형 예외 전달
+	}
+	catch(int exp){
+		cout<<"int형 예외 발생"<<endl;
+	}
+	catch(char exp){
+		cout<<"char형 예외 발생"<<endl;
+	}
+
+	return 0;
+}
+
+
+
+/*
+	catch_over1.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+char* account="1234-5678";	//계좌번호
+int sid=1122;	//비밀번호
+int balance=1000;	//잔액
+
+class AccountExpt
+{
+	char acc[10];
+	int sid;
+public:
+	AccountExpt(char* str, int id){
+		strcpy(acc,str);
+		sid=id;
+	}
+	void What(){
+		cout<<"계좌번호: "<<acc<<endl;
+		cout<<"비밀번호: "<<sid<<endl;
+	}
+};
+
+int main(void)
+{
+	char acc[10];
+	int id;
+	int money;
+
+	cout<<"계좌번호 입력: ";
+	cin>>acc;
+	cout<<"비밀번호 4자리 입력: ";
+	cin>>id;
+
+	if(strcmp(account,acc)||sid!=id)
+		throw AccountExpt(acc,id);
+
+	cout<<"출금액 입력: ";
+	cin>>money;
+	if(balance<money)
+		throw money;
+
+	balance-=money;
+	cout<<"잔액 : "<<balance<<endl;
+
+	return 0;
+}
+
+
+
+
+/*
+	catch_over2.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+char* account="1234-5678";	//계좌번호
+int sid=1122;	//비밀번호
+int balance=1000;	//잔액
+
+class AccountExpt
+{
+	char acc[10];
+	int sid;
+public:
+	AccountExpt(char* str, int id){
+		strcpy(acc,str);
+		sid=id;
+	}
+	void What(){
+		cout<<"계좌번호: "<<acc<<endl;
+		cout<<"비밀번호: "<<sid<<endl;
+	}
+};
+
+int main(void)
+{
+	char acc[10];
+	int id;
+	int money;
+
+	try{
+		cout<<"계좌번호 입력: ";
+		cin>>acc;
+		cout<<"비밀번호 4자리 입력: ";
+		cin>>id;
+		if(strcmp(account,acc)||sid!=id)
+			throw AccountExpt(acc,id);
+	}
+	catch(AccountExpt& expt){	//성능 향상을 위해 레퍼런스로 받음
+		cout<<"다음 입력을 다시 한번 확인하세요"<<endl;
+		expt.What();
+	}
+
+	try{
+		cout<<"출금액 입력: ";
+		cin>>money;
+		if(balance<money)
+			throw money;
+
+		balance-=money;
+		cout<<"잔액 : "<<balance<<endl;
+	}
+	catch(int money){
+		cout<<"부족 금액: "<<money-balance<<endl;
+	}
+	return 0;
+}
+
+
+
+
+/*
+	catch_over3.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+char* account="1234-5678";	//계좌번호
+int sid=1122;	//비밀번호
+int balance=1000;	//잔액
+
+class AccountExpt
+{
+	char acc[10];
+	int sid;
+public:
+	AccountExpt(char* str, int id){
+		strcpy(acc,str);
+		sid=id;
+	}
+	void What(){
+		cout<<"계좌번호: "<<acc<<endl;
+		cout<<"비밀번호: "<<sid<<endl;
+	}
+};
+
+int main(void)
+{
+	char acc[10];
+	int id;
+	int money;
+
+	try{
+		cout<<"계좌번호 입력: ";
+		cin>>acc;
+		cout<<"비밀번호 4자리 입력: ";
+		cin>>id;
+		if(strcmp(account,acc)||sid!=id)
+			throw AccountExpt(acc,id);
+	
+		cout<<"출금액 입력: ";
+		cin>>money;
+		if(balance<money)
+			throw money;
+
+		balance-=money;
+		cout<<"잔액 : "<<balance<<endl;
+	}
+	catch(int money){
+		cout<<"부족 금액: "<<money-balance<<endl;
+	}
+	catch(AccountExpt& expt){	//성능 향상을 위해 레퍼런스로 받음
+		cout<<"다음 입력을 다시 한번 확인하세요"<<endl;
+		expt.What();
+	}
+
+	return 0;
+}
+
+
+
+
+/*
+	inheri_catch1.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+class ExceptA
+{
+public:
+	void What(){
+		cout<<"ExceptA 예외"<<endl;
+	}
+};
+
+class ExceptB :public ExceptA
+{
+public:
+	void What(){
+		cout<<"ExceptB 예외"<<endl;
+	}
+};
+
+class ExceptC: public ExceptB
+{
+public:
+	void What(){
+		cout<<"ExceptC 예외"<<endl;
+	}
+};
+
+void ExcepFunction(int ex)
+{
+	if(ex==1)
+		throw ExceptA();
+	else if(ex==2)
+		throw ExceptB();
+	else
+		throw ExceptC();
+}
+
+int main(void)
+{
+	int exID;
+	cout<<"발생시킬 예외의 숫자: ";
+	cin>>exID;
+
+	try{
+		ExcepFunction(exID);
+	}
+	catch(ExceptA& ex){
+		cout<<"catch(ExceptA& ex)에 의한 처리"<<endl;
+		ex.What();
+	}
+	catch(ExceptB& ex){
+		cout<<"catch(ExceptB& ex)에 의한 처리"<<endl;
+		ex.What();
+	}
+	catch(ExceptC& ex){
+		cout<<"catch(ExceptC& ex)에 의한 처리"<<endl;
+		ex.What();
+	}
+
+	return 0;
+}
+
+
+
+/*
+	inheri_catch2.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+class ExceptA
+{
+public:
+	void What(){
+		cout<<"ExceptA 예외"<<endl;
+	}
+};
+
+class ExceptB :public ExceptA
+{
+public:
+	void What(){
+		cout<<"ExceptB 예외"<<endl;
+	}
+};
+
+class ExceptC: public ExceptB
+{
+public:
+	void What(){
+		cout<<"ExceptC 예외"<<endl;
+	}
+};
+
+void ExcepFunction(int ex)
+{
+	if(ex==1)
+		throw ExceptA();
+	else if(ex==2)
+		throw ExceptB();
+	else
+		throw ExceptC();
+}
+
+int main(void)
+{
+	int exID;
+	cout<<"발생시킬 예외의 숫자: ";
+	cin>>exID;
+
+	try{
+		ExcepFunction(exID);
+	}
+	catch(ExceptC& ex){
+		cout<<"catch(ExceptC& ex)에 의한 처리"<<endl;
+		ex.What();
+	}
+	catch(ExceptB& ex){
+		cout<<"catch(ExceptB& ex)에 의한 처리"<<endl;
+		ex.What();
+	}	
+	catch(ExceptA& ex){
+		cout<<"catch(ExceptA& ex)에 의한 처리"<<endl;
+		ex.What();
+	}
+
+
+	return 0;
+}
+
+
+
+
+
+/*
+	new_except.cpp
+*/
+#include<iostream>
+#include<new>
+
+using std::bad_alloc;
+using std::endl;
+using std::cout;
+
+int main(void)
+{
+	try{
+		int i=0;
+		while(1){
+			cout<<i++<<"번째 할당"<<endl;
+			double(*arr)[10000]=new double[10000][10000];
+		}
+	}
+	catch(bad_alloc ex){
+		ex.what();
+		cout<<endl<<"END"<<endl;
+	}
+	return 0;
+}
+
+
+
+/*
+	re_throw.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+
+class Exception
+{
+public:
+	void what(){
+		cout<<"Simple Exception"<<endl;
+	}
+};
+
+void ThrowException()
+{
+	try{
+		throw Exception();
+	}
+	catch(Exception& t){
+		t.what();
+		throw;	//예외 다시 던짐
+	}
+}
+
+int main()
+{
+	try{
+		ThrowException();
+	}
+	catch(Exception& t){
+		t.what();
+	}
+	return 0;
+}
+
+

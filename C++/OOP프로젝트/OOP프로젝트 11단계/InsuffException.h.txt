@@ -1,0 +1,15 @@
+/*
+	InsuffException.h
+*/
+#ifndef _INSUFF_EXCEPTION_H_
+#define _INSUFF_EXCEPTION_H_
+
+class InsuffException
+{
+	double balance;
+	double req_val;
+public:
+	InsuffException(double balance, double val);
+	void What();
+};
+#endif

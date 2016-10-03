@@ -1,0 +1,83 @@
+/*
+	Container.h
+	//저장소 클래스
+*/
+#ifndef _CONTAINER_H_
+#define _CONTAINER_H_
+#include "Account.h"
+#include<iostream>
+
+using std::endl;
+using std::cout;
+using std::cin;
+
+
+template<typename Element>
+class Container
+{
+private:
+	Element* arr;	//객체 포인터 배열을 가리키는 포인터
+	int length;		//배열의 길이
+	int aIndex;		//저장된 객체의 수
+public:
+	Container(int len=5);
+	~Container();
+	void Insert(Element data);	//순차입력!
+	Element Remove(int idx);	//idx번째 객체 삭제
+
+	Element GetItem(int idx);	//인덱스 idx의 객체 참조
+	int GetElemSum();
+};
+
+
+template<typename Element>
+Container<Element>::Container(int len):aIndex(0)
+{
+	if(len<=50)
+		len=50;
+	length=len;
+
+	arr=new Element[length];
+}
+
+template<typename Element>
+Container<Element>::~Container()
+{
+	delete[] arr;
+}
+
+template<typename Element>
+void Container<Element>::Insert(Element data)	//순차입력!
+{
+	if(aIndex==length)
+	{
+		cout<<"저장할 공간이 없습니다"<<endl;
+		return;
+	}
+	arr[aIndex++]=data;
+}
+
+template<typename Element>
+Element Container<Element>::Remove(int idx)	//idx번째 객체 삭제
+{
+	Element del=arr[idx];
+	for(int i=idx;i<aIndex-1;i++)
+		arr[i]=arr[i+1];
+
+	aIndex--;
+	return del;
+}
+
+template<typename Element>
+Element Container<Element>::GetItem(int idx)	//인덱스 idx의 객체 참조
+{
+		return arr[idx];
+}
+
+template<typename Element>
+int Container<Element>::GetElemSum()
+{
+	return aIndex;
+}
+
+#endif

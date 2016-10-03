@@ -1,0 +1,115 @@
+/*
+	using1.cpp
+*/
+
+#include<iostream>
+
+namespace A_COM
+{
+	void function(void)
+	{
+		std::cout<<"A.com에서 정의한 함수"<<std::endl;
+	}
+}
+
+using A_COM::function;
+//이름공간안에 함수의 선언만 했을경우에도 이렇게 써도 되는건가? 넹
+
+int main(void)
+{
+	function();
+	return 0;
+}
+
+
+/*
+	HelloWorld3.cpp
+*/
+
+#include<iostream>
+
+using std::cout;
+using std::cin;
+using std::endl;
+//이렇게 하면 std::endl로는 호출 못하나? 되네
+
+int main(void)
+{
+	cout<<"Hello World!!"<<endl;
+	cout<<"Hello "<<"World!!"<<endl;
+	cout<<1<<'a'<<"String"<<endl;
+	//std::cout<<"OK"<<std::endl;
+	
+	return 0;
+}
+
+
+/*
+	using2.cpp
+*/
+
+#include<iostream>
+
+namespace A_COM
+{
+	void function(void)
+	{
+		std::cout<<"A.com에서 정의한 함수"<<std::endl;
+	}
+}
+
+using namespace A_COM;
+
+int main (void)
+{
+	function();
+	return 0;
+}
+
+
+/*
+	HelloWorld4.cpp
+*/
+
+#include<iostream>
+
+using namespace std;
+
+int main(void)
+{
+	cout<<"Hello World!!"<<endl;
+	cout<<"Hello "<<"World!!"<<endl;
+	cout<<1<<'a'<<"String"<<endl;
+
+	return 0;
+}
+
+
+/*
+	::연산자
+*/
+
+#include<iostream>
+
+void CALL (void);
+
+using std::cout;
+using std::cin;
+using std::endl;
+
+int val=100;
+
+int main (void)
+{
+	int val=90;
+	::val+=1;
+	cout<<val<<endl;	
+	CALL();
+
+	return 0;
+}
+
+void CALL (void)
+{
+	cout<<val<<endl;
+}

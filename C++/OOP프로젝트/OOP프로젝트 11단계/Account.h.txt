@@ -1,0 +1,25 @@
+/*
+	Account.h
+*/
+#ifndef _ACCOUNT_H_
+#define _ACCOUNT_H_
+#include "String.h"
+
+class Account{
+	int id;	//계좌
+	string name;	//이름
+	double balance;	//잔액
+public:
+	Account(int id, string name, double balance);
+	Account(const Account& account);
+	Account& operator=(const Account& a);
+
+	int GetID() const;	//계좌전달
+	const string GetName() const;	//이름전달
+	double GetBalance() const;	//잔액전달
+
+	virtual void AddBalance(double add);	//입금완료
+	void MinBalance(double min);	//출금완료
+	virtual void ShowAllData() const;
+};
+#endif

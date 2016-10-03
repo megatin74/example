@@ -1,0 +1,19 @@
+/*
+	InsuffException.cpp
+*/
+#include "InsuffException.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+
+InsuffException::InsuffException(double balance, double val)
+{
+	this->balance=balance;
+	req_val=val;
+}
+
+void InsuffException::What()
+{
+	cout<<req_val-balance<<" 원이 부족합니다!"<<endl;
+	cout<<endl;
+}

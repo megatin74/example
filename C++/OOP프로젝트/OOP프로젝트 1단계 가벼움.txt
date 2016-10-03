@@ -1,0 +1,138 @@
+/*
+	OOP_PROJECT(chapter 1)
+	main.cpp
+*/
+#include<iostream>
+
+using std::cout;
+using std::cin;
+using std::endl;
+
+typedef struct BANK{
+	int account;	//계좌
+	char name[20];	//이름
+	int balance;	//잔액
+} BANK;
+
+BANK pArray[100];
+int count=0;
+
+void PrintMenu(void);	//메뉴
+void MakeAccount(void);	//계좌개설
+void Deposit(void);	//입금
+void Withdraw(void);	//출금
+void Inquire(void);	//잔액조회
+
+enum{MAKE=1, DEPOSIT, WITHDRAW, INQUIRE, EXIT};
+
+int main(void)
+{
+	int select;
+
+	while(1)
+	{
+		PrintMenu();
+		cout<<"선택할 기능(1~5) : "; cin>>select;
+
+		switch(select)
+		{
+			case MAKE:
+				MakeAccount();
+				break;
+			case DEPOSIT:
+				Deposit();
+				break;
+			case WITHDRAW:
+				Withdraw();
+				break;
+			case INQUIRE:
+				Inquire();
+				break;
+			case EXIT:
+				return 0;
+		}
+	}
+}				
+
+void PrintMenu(void)
+{
+	cout<<"기능 1. 계좌 개설"<<endl;
+	cout<<"기능 2. 입     금"<<endl;
+	cout<<"기능 3. 출     금"<<endl;
+	cout<<"기능 4. 전체 고객 잔액 조회"<<endl;
+	cout<<"기능 5. 종     료"<<endl;
+}
+
+void MakeAccount(void)
+{
+	cout<<"성    함 : ";	cin>>pArray[count].name;
+	cout<<"계좌번호 : ";	cin>>pArray[count].account;
+	cout<<"입금금액 : ";    cin>>pArray[count].balance;
+	cout<<endl;
+
+	count++;
+}
+
+void Deposit(void)
+{
+	int find;
+	cout<<"입금할 계좌번호 : ";
+	cin>>find;
+
+	for(int i=0;i<count;i++)
+	{
+		if(find==pArray[i].account)
+		{
+			int deposit_pay;
+
+			cout<<"성  함 : "<<pArray[i].name<<endl;
+			cout<<"입금할 금액 : ";
+			cin>>deposit_pay;
+			pArray[i].balance+=deposit_pay;
+			cout<<"통장의 잔액 : "<<pArray[i].balance<<endl;
+			cout<<endl;
+
+			break;
+		}
+		if(i==(count-1))
+			cout<<"잘못된 계좌번호를 입력하셨습니다."<<endl;
+	}
+}
+
+void Withdraw(void)
+{
+	int find;
+	cout<<"출금할 계좌번호 : ";
+	cin>>find;
+
+	for(int i=0;i<count;i++)
+	{
+		if(find==pArray[i].account)
+		{
+			int withdraw_pay;
+
+			cout<<"성  함 : "<<pArray[i].name<<endl;
+			cout<<"출금할 금액 : ";
+			cin>>withdraw_pay;
+			pArray[i].balance-=withdraw_pay;
+			cout<<"통장의 잔액 : "<<pArray[i].balance<<endl;
+			cout<<endl;
+
+			break;
+		}
+		if(i==(count-1))
+			cout<<"잘못된 계좌번호를 입력하셨습니다."<<endl;
+	}
+}
+
+void Inquire(void)
+{
+	for(int i=0; i<count;i++)
+	{
+		cout<<"계좌번호 : "<<pArray[i].account<<endl;
+		cout<<"성    함 : "<<pArray[i].name<<endl;
+		cout<<"잔    액 : "<<pArray[i].balance<<endl;
+		cout<<endl;
+	}
+	cout<<endl;
+}

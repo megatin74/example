@@ -1,0 +1,282 @@
+/*
+	EmploteeManager1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Permanent
+{
+private:
+	char name[20];	//이름
+	int salary;	//기본 급여
+public:
+	Permanent(char* _name, int sal);
+	const char* GetName();
+	int GetPay();
+};
+Permanent::Permanent(char* _name, int sal)
+{
+	strcpy(name,_name);
+	salary=sal;
+}
+const char* Permanent::GetName()
+{
+	return name;
+}
+int Permanent::GetPay()
+{
+	return salary;
+}
+
+class Department
+{
+	Permanent* empList[10];
+	int index;
+public:
+	Department():index(0){}
+	void AddEmployee(Permanent* emp);
+	void ShowList();
+};
+void Department::AddEmployee(Permanent* emp)
+{
+	empList[index++]=emp;
+}
+void Department::ShowList()
+{
+	for(int i=0; i<index; i++)
+	{
+		cout<<"name   : "<<empList[i]->GetName()<<endl;
+		cout<<"salary : "<<empList[i]->GetPay()<<endl;
+		cout<<endl;
+	}
+}
+
+int main(void)
+{
+	//직원을 관리하는 CONTROL 클래스
+	Department department;
+
+	//직원 등록
+	department.AddEmployee(new Permanent("KIM",1000));
+	department.AddEmployee(new Permanent("LEE",1500));
+	department.AddEmployee(new Permanent("JUN",2000));
+
+	//최종적으로 이번 달에 지불해야 할 급여는?
+	department.ShowList();
+
+	return 0;
+}
+
+
+
+
+
+/*
+	BasicInheri1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Person
+{
+	int age;
+	char name[20];
+public:
+	int GetAge() const{
+		return age;
+	}
+	const char* GetName() const{
+		return name;
+	}
+	Person(int _age=1,char* _name="noname"){
+		age=_age;
+		strcpy(name,_name);
+	}
+};
+
+class Student :public Person
+{
+	char major[20];
+public:
+	Student(char* _major){
+		strcpy(major,_major);
+	}
+	const char* GetMajor() const{
+		return major;
+	}
+	void ShowData() const{
+		cout<<"이름 : "<<GetName()<<endl;
+		cout<<"나이 : "<<GetAge()<<endl;
+		cout<<"전공 : "<<GetMajor()<<endl;
+	}
+};
+
+int main(void)
+{
+	Student Kim("Computer");
+	Kim.ShowData();
+
+	return 0;
+}
+
+
+
+/*
+	BasicInheri2.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Person
+{
+	int age;
+	char name[20];
+public:
+	int GetAge() const{
+		return age;
+	}
+	const char* GetName() const{
+		return name;
+	}
+	Person(int _age=1,char* _name="noname"){
+		age=_age;
+		strcpy(name,_name);
+	}
+};
+
+class Student :public Person
+{
+	char major[20];
+public:
+	Student(int _age, char* _name, char* _major)
+	{
+		age=_age;	//Compile Error!
+		strcpy(name,_name);	//Complie Error!
+		strcpy(major,_major);
+	}
+	const char* GetMajor() const{
+		return major;
+	}
+	void ShowData() const{
+		cout<<"이름 : "<<GetName()<<endl;
+		cout<<"나이 : "<<GetAge()<<endl;
+		cout<<"전공 : "<<GetMajor()<<endl;
+	}
+};
+
+int main(void)
+{
+	Student Kim("Computer");
+	Kim.ShowData();
+
+	return 0;
+}
+
+
+/*
+	BasicInheri3.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Person
+{
+	int age;
+	char name[20];
+public:
+	int GetAge() const{
+		return age;
+	}
+	const char* GetName() const{
+		return name;
+	}
+	Person(int _age=1,char* _name="noname"){
+		age=_age;
+		strcpy(name,_name);
+	}
+};
+
+class Student :public Person
+{
+	char major[20];
+public:
+	Student(int _age, char* _name, char* _major)
+		:Person(_age,_name)
+	{
+		strcpy(major,_major);
+	}
+	const char* GetMajor() const{
+		return major;
+	}
+	void ShowData() const{
+		cout<<"이름 : "<<GetName()<<endl;
+		cout<<"나이 : "<<GetAge()<<endl;
+		cout<<"전공 : "<<GetMajor()<<endl;
+	}
+};
+
+int main(void)
+{
+	Student Kim(20,"KIM","Computer");
+	Kim.ShowData();
+
+	return 0;
+}
+
+
+
+/*
+	BasicInheri4.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Person
+{
+protected:
+	int age;
+	char name[20];
+public:
+	int GetAge() const{
+		return age;
+	}
+	const char* GetName() const{
+		return name;
+	}
+	Person(int _age=1,char* _name="noname"){
+		age=_age;
+		strcpy(name,_name);
+	}
+};
+
+class Student :public Person
+{
+	char major[20];
+public:
+	Student(int _age, char* _name, char* _major)
+		:Person(_age,_name)
+	{
+		strcpy(major,_major);
+	}
+	const char* GetMajor() const{
+		return major;
+	}
+	void ShowData() const{
+		cout<<"이름 : "<<GetName()<<endl;
+		cout<<"나이 : "<<GetAge()<<endl;
+		cout<<"전공 : "<<GetMajor()<<endl;
+	}
+};
+
+int main(void)
+{
+	Student Kim(20,"KIM","Computer");
+	Kim.ShowData();
+
+	return 0;
+}

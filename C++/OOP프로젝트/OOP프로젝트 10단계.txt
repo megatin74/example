@@ -1,0 +1,592 @@
+/*
+	OOP_PROJECT 9단계
+	main.cpp
+*/
+#include "AccManager.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+enum{MAKE=1, DEPOSIT, WITHDRAW, INQUIRE, EXIT};
+
+int main(void)
+{
+	AccManager AccSel;
+	int select;
+
+	while(1)
+	{
+		AccSel.PrintMenu();
+		cout<<"선택할 기능(1~5) : "; cin>>select;
+
+		switch(select)
+		{
+			case MAKE:
+				AccSel.MakeAccount();
+				break;
+			case DEPOSIT:
+				AccSel.Deposit();
+				break;
+			case WITHDRAW:
+				AccSel.Withdraw();
+				break;
+			case INQUIRE:
+				AccSel.Inquire();
+				break;
+			case EXIT:
+				return 0;
+			default:
+				cout<<"선택을 잘못하셨습니다."<<endl;
+				break;
+		}
+	}
+}				
+
+
+
+
+/*
+	Account.h
+*/
+#ifndef _ACCOUNT_H_
+#define _ACCOUNT_H_
+#include "String.h"
+
+class Account{
+	int id;	//계좌
+	string name;	//이름
+	double balance;	//잔액
+public:
+	Account(int id, string name, double balance);
+	Account(const Account& account);
+	Account& operator=(const Account& a);
+
+	int GetID() const;	//계좌전달
+	const string GetName() const;	//이름전달
+	double GetBalance() const;	//잔액전달
+
+	virtual void AddBalance(double add);	//입금완료
+	void MinBalance(double min);	//출금완료
+	virtual void ShowAllData() const;
+};
+#endif
+
+
+
+/*
+	Account.cpp
+*/
+#include "Account.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+Account::Account(int id, string name, double balance)
+{
+	this->id=id;
+	this->name=name;
+	this->balance=balance;
+}
+Account::Account(const Account& account)
+{
+	id=account.id;
+	name=account.name;
+	balance=account.balance;
+}
+Account& Account::operator=(const Account& account)
+{
+	id=account.id;
+	name=account.name;
+	balance=account.balance;
+
+	return *this;
+}
+int Account::GetID() const	//계좌전달
+{
+	return id;
+}
+const string Account::GetName() const	//이름전달
+{
+	return name;
+}
+double Account::GetBalance() const	//잔액전달
+{
+	return balance;
+}
+void Account::AddBalance(double add)	//잔액입금
+{
+	balance+=add;
+	cout<<"입금이 완료되었습니다."<<endl;
+}
+void Account::MinBalance(double min)	//잔액출금
+{
+	balance-=min;
+	cout<<"출금이 완료되었습니다."<<endl;
+}
+void Account::ShowAllData() const
+{
+	cout<<"***** 일반 계좌 *****"<<endl;
+	cout<<"계좌번호 : "<<id<<endl;
+	cout<<"성    함 : "<<name<<endl;
+	cout<<"잔    액 : "<<balance<<endl;
+	cout<<endl;
+}
+
+
+
+/*
+	FaithAccount.h	//신용계좌(1%의 이자)
+*/
+#ifndef _FAITH_ACCOUNT_H_
+#define _FAITH_ACCOUNT_H_
+#include "Account.h"
+
+class FaithAccount	:public Account
+{
+public:
+	FaithAccount(int id, string name, double balance);
+
+	virtual void AddBalance(double add);	//입금완료
+};
+#endif
+
+
+
+
+/*
+	FaithAccount.cpp
+*/
+#include "FaithAccount.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+FaithAccount::FaithAccount(int id, string name, double balance)
+:Account(id,name,1.01*balance){}
+
+void FaithAccount::AddBalance(double add)	//입금완료
+{
+	Account::AddBalance(1.01*add);
+}
+
+
+
+
+/*
+	ContriAccount.h	//기부 계좌(1%의 기여, 기부총액 표시)
+*/
+#ifndef _CONTRI_ACCOUNT_H_
+#define _CONTRI_ACCOUNT_H_ 20
+#include "Account.h"
+
+class ContriAccount :public Account
+{
+private:
+	double contribution;	//기부금 내역
+public:
+	ContriAccount(int id, string name, double balance);
+	double GetContri () const;
+
+	virtual void AddBalance(double add);	//입금완료
+	virtual void ShowAllData() const;
+};
+#endif
+
+
+
+
+/*
+	ContriAccount.cpp
+*/
+#include "ContriAccount.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+ContriAccount::ContriAccount(int id, string name, double balance)
+:Account(id,name,0.99*balance)
+{
+	contribution=0.01*balance;
+}
+
+double ContriAccount::GetContri() const
+{
+	return contribution;
+}
+void ContriAccount::AddBalance(double add)	//입금완료
+{
+	Account::AddBalance(0.99*add);
+	contribution+=0.01*add;
+	cout<<"기부내역 : "<<contribution<<endl;
+}
+void ContriAccount::ShowAllData() const
+{
+	cout<<"***** 기부 계좌 *****"<<endl;
+	cout<<"계좌번호 : "<<GetID()<<endl;
+	cout<<"성    함 : "<<GetName()<<endl;
+	cout<<"잔    액 : "<<GetBalance()<<endl;
+	cout<<"기부내역 : "<<contribution<<endl;
+	cout<<endl;
+}
+
+
+
+/*
+	Container.h
+	//저장소 클래스
+*/
+#ifndef _CONTAINER_H_
+#define _CONTAINER_H_
+#include "Account.h"
+#include<iostream>
+
+using std::endl;
+using std::cout;
+using std::cin;
+
+
+template<typename Element>
+class Container
+{
+private:
+	Element* arr;	//객체 포인터 배열을 가리키는 포인터
+	int length;		//배열의 길이
+	int aIndex;		//저장된 객체의 수
+public:
+	Container(int len=5);
+	~Container();
+	void Insert(Element data);	//순차입력!
+	Element Remove(int idx);	//idx번째 객체 삭제
+
+	Element GetItem(int idx);	//인덱스 idx의 객체 참조
+	int GetElemSum();
+};
+
+
+template<typename Element>
+Container<Element>::Container(int len):aIndex(0)
+{
+	if(len<=50)
+		len=50;
+	length=len;
+
+	arr=new Element[length];
+}
+
+template<typename Element>
+Container<Element>::~Container()
+{
+	delete[] arr;
+}
+
+template<typename Element>
+void Container<Element>::Insert(Element data)	//순차입력!
+{
+	if(aIndex==length)
+	{
+		cout<<"저장할 공간이 없습니다"<<endl;
+		return;
+	}
+	arr[aIndex++]=data;
+}
+
+template<typename Element>
+Element Container<Element>::Remove(int idx)	//idx번째 객체 삭제
+{
+	Element del=arr[idx];
+	for(int i=idx;i<aIndex-1;i++)
+		arr[i]=arr[i+1];
+
+	aIndex--;
+	return del;
+}
+
+template<typename Element>
+Element Container<Element>::GetItem(int idx)	//인덱스 idx의 객체 참조
+{
+		return arr[idx];
+}
+
+template<typename Element>
+int Container<Element>::GetElemSum()
+{
+	return aIndex;
+}
+
+#endif
+
+
+
+
+/*
+	AccManager.h
+*/
+#ifndef _ACC_MANAGER_H_
+#define _ACC_NANAGER_ 20
+#include "FaithAccount.h"
+#include "ContriAccount.h"
+#include "Container.h"
+
+class AccManager
+{
+private:
+	Container ctr;
+public:
+	AccManager(){}
+	~AccManager(){}	//delete 해야되지 않나?
+					//1
+
+	void PrintMenu();	//목록출력
+	void MakeAccount();	//계좌개설
+	void Deposit();	//입금
+	void Withdraw();	//출금
+	void Inquire();	//잔액조회
+};
+#endif
+
+
+
+
+/*
+	AccManager.cpp
+*/
+#include "AccManager.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+void AccManager::PrintMenu()	//목록출력
+{
+	cout<<"***** 메뉴 목록 *****"<<endl;
+	cout<<"기능 1. 계좌 개설"<<endl;
+	cout<<"기능 2. 입     금"<<endl;
+	cout<<"기능 3. 출     금"<<endl;
+	cout<<"기능 4. 전체 고객 잔액 조회"<<endl;
+	cout<<"기능 5. 종     료"<<endl;
+}
+
+void AccManager::MakeAccount()	//계좌개설
+{
+	string name;
+	int id;
+	int balance;
+	int select;
+
+	cout<<"***** 계좌 종류 *****"<<endl;
+	cout<<"기능 1. 일반 계좌"<<endl;
+	cout<<"기능 2. 신용 계좌"<<endl;
+	cout<<"기능 3. 기부 계좌"<<endl;
+	cout<<"선택할 기능 : ";
+	cin>>select;
+
+	if(0>select||select>3){
+		cout<<"잘못된 선택을 하셨습니다."<<endl;
+		return;
+	}
+
+	cout<<"***** 계좌 개설 *****"<<endl;
+	cout<<"성    함 : ";	cin>>name;
+	cout<<"계좌번호 : ";	cin>>id;
+	cout<<"입금금액 : ";    cin>>balance;
+	cout<<endl;
+
+	if(select==1)
+		ctr.Insert(new Account(id,name,balance));
+	if(select==2)	//신용 계좌
+		ctr.Insert(new FaithAccount(id,name,balance));
+	if(select==3)	//기부 계좌
+		ctr.Insert(new ContriAccount(id,name,balance));		
+}
+
+void AccManager::Deposit()	//입금
+{
+	int find;
+	int i;	//for문
+	cout<<"***** 계좌 입금 *****"<<endl;
+	cout<<"입금할 계좌번호 : ";
+	cin>>find;
+
+	for(i=0;i<ctr.GetElemSum();i++)
+	{
+		if(find==ctr.GetItem(i)->GetID())
+		{
+			double add;
+			cout<<"성    함 : "<<ctr.GetItem(i)->GetName()<<endl;
+			cout<<"입금할 금액 : ";	cin>>add;
+			ctr.GetItem(i)->AddBalance(add);
+			cout<<"잔    액 : "<<ctr.GetItem(i)->GetBalance()<<endl;
+			cout<<endl;
+			return;
+		}
+	}
+	cout<<"잘못된 계좌번호를 입력하셨습니다."<<endl;
+	cout<<endl;
+}
+
+void AccManager::Withdraw()	//출금
+{
+	int find;
+	int i;	//for문
+	cout<<"***** 계좌 출금 *****"<<endl;
+	cout<<"출금할 계좌번호 : ";
+	cin>>find;
+
+	for(i=0;i<ctr.GetElemSum();i++)
+	{
+		if(find==ctr.GetItem(i)->GetID())
+		{
+			double min;
+			cout<<"성    함 : "<<ctr.GetItem(i)->GetName()<<endl;
+			cout<<"출금할 금액 : ";	cin>>min;
+			if(ctr.GetItem(i)->GetBalance()<min)
+			{
+				cout<<"잔액이 부족합니다."<<endl;
+				cout<<endl;
+				return;
+			}
+			ctr.GetItem(i)->MinBalance(min);
+			cout<<"잔    액 : "<<ctr.GetItem(i)->GetBalance()<<endl;
+			cout<<endl;
+			return;
+		}
+	}
+	cout<<"잘못된 계좌번호를 입력하셨습니다."<<endl;
+	cout<<endl;
+
+}
+
+void AccManager::Inquire()	//잔액조회
+{
+	cout<<"***** 잔액 조회 *****"<<endl;
+	for(int i=0;i<ctr.GetElemSum();i++)
+		ctr.GetItem(i)->ShowAllData();
+	cout<<endl;
+}
+
+
+
+
+/*
+	String.h
+*/
+#ifndef _STRING_H_
+#define _STRING_H_
+#include<iostream>
+using std::ostream;
+using std::istream;
+
+#define SIZE 100
+#define _DEBUG_ 1	//시험용
+//#define _DEBUG_ 2	//정식용
+
+class string{
+	int len;
+	char* str;
+public:
+	string(const char* s="NoName");
+	string(const string& s);
+	~string();
+	string& operator=(const string& s);
+	string operator+(const string& s);
+	string& operator+=(const string& s);
+	bool operator==(const string& s);
+
+	friend ostream& operator<<(ostream& os, const string& s);
+	friend istream& operator>>(istream& is, string& s);
+};
+
+#endif
+
+
+
+/*
+	String.cpp
+*/
+#include "String.h"
+using std::cout;
+using std::endl;
+
+string::string(const char* s){
+	len=strlen(s);
+	str=new char[len+1];
+#if _DEBUG_==1
+	if(str==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	strcpy(str,s);
+}
+string::string(const string& s){
+	len=s.len;
+	str=new char[len+1];
+#if _DEBUG_==1
+	if(str==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	strcpy(str,s.str);
+}
+string::~string(){
+	delete[] str;
+}
+
+string& string::operator=(const string& s){
+	delete[] str;
+	len=s.len;
+	str=new char[len+1];
+#if _DEBUG_==1
+	if(str==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	strcpy(str,s.str);
+
+	return *this;
+}
+string string::operator+(const string& s){
+	char* tStr=new char[len+s.len+1];
+#if _DEBUG_==1
+	if(tStr==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	strcpy(tStr,str);
+	strcat(tStr,s.str);
+
+	string temp(tStr);
+	delete[] tStr;
+	return temp;
+}
+string& string::operator+=(const string& s){
+	return *this=*this+s;
+}
+bool string::operator ==(const string& s){
+	return strcmp(str,s.str)? false: true;
+}
+
+ostream& operator<<(ostream& os, const string& s){
+	os<<s.str;
+	return os;
+}
+istream& operator>>(istream& is, string& s){
+	char tStr[SIZE];
+	is>>tStr;
+
+	s=string(tStr);
+	return is;
+}
+
+

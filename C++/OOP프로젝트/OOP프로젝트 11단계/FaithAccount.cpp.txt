@@ -1,0 +1,16 @@
+/*
+	FaithAccount.cpp
+*/
+#include "FaithAccount.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+FaithAccount::FaithAccount(int id, string name, double balance)
+:Account(id,name,1.01*balance){}
+
+void FaithAccount::AddBalance(double add)	//입금완료
+{
+	Account::AddBalance(1.01*add);
+}

@@ -1,0 +1,16 @@
+/*
+	FaithAccount.h	//신용계좌(1%의 이자)
+*/
+#ifndef _FAITH_ACCOUNT_H_
+#define _FAITH_ACCOUNT_H_
+#include "Account.h"
+
+class FaithAccount	:public Account
+{
+public:
+	FaithAccount(int id, string name, double balance);
+
+	virtual void AddBalance(double add);	//입금완료
+};
+#endif
+

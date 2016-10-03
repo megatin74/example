@@ -1,0 +1,448 @@
+/*
+	OOP_PROJECT 7단계
+	main.cpp
+*/
+#include "AccManager.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+enum{MAKE=1, DEPOSIT, WITHDRAW, INQUIRE, EXIT};
+
+int main(void)
+{
+	AccManager AccSel;
+	int select;
+
+	while(1)
+	{
+		AccSel.PrintMenu();
+		cout<<"선택할 기능(1~5) : "; cin>>select;
+
+		switch(select)
+		{
+			case MAKE:
+				AccSel.MakeAccount();
+				break;
+			case DEPOSIT:
+				AccSel.Deposit();
+				break;
+			case WITHDRAW:
+				AccSel.Withdraw();
+				break;
+			case INQUIRE:
+				AccSel.Inquire();
+				break;
+			case EXIT:
+				return 0;
+			default:
+				cout<<"선택을 잘못하셨습니다."<<endl;
+				break;
+		}
+	}
+}				
+
+
+
+/*
+	Account.h
+*/
+#ifndef _ACCOUNT_H_
+#define _ACCOUNT_H_ 20
+
+#define SIZE 20
+#define _DEBUG_ 1	//시험용
+//#define _DEBUG_ 2	//정식용
+
+class Account{
+	int id;	//계좌
+	char* name;	//이름
+	double balance;	//잔액
+public:
+	Account(){};
+	Account(int id, char* name, double balance);
+	Account(const Account& account);
+	virtual ~Account();
+
+	int GetID() const;	//계좌전달
+	const char* GetName() const;	//이름전달
+	double GetBalance() const;	//잔액전달
+
+	virtual void AddBalance(double add);	//입금완료
+	virtual void MinBalance(double min);	//출금완료
+	virtual void ShowAllData() const;
+};
+#endif
+
+
+
+/*
+	Account.cpp
+*/
+#include "Account.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+Account::Account(int id, char* name, double balance)
+{
+	this->id=id;
+
+	this->name=new char[strlen(name)+1];
+#if _DEBUG_==1
+	if(this->name==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+
+	strcpy(this->name,name);
+	this->balance=balance;
+}
+Account::Account(const Account& account)
+{
+	id=account.id;
+
+	name=new char[strlen(account.name)+1];
+#if _DEBUG_==1
+	if(this->name==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	strcpy(name,account.name);
+
+	balance=account.balance;
+}
+Account::~Account()
+{
+	delete[] name;	
+	//delete this;
+}
+int Account::GetID() const	//계좌전달
+{
+	return id;
+}
+const char* Account::GetName() const	//이름전달
+{
+	return name;
+}
+double Account::GetBalance() const	//잔액전달
+{
+	return balance;
+}
+void Account::AddBalance(double add)	//잔액입금
+{
+	balance+=add;
+	cout<<"입금이 완료되었습니다."<<endl;
+}
+void Account::MinBalance(double min)	//잔액출금
+{
+	balance-=min;
+	cout<<"출금이 완료되었습니다."<<endl;
+}
+void Account::ShowAllData() const
+{
+	cout<<"***** 일반 계좌 *****"<<endl;
+	cout<<"계좌번호 : "<<id<<endl;
+	cout<<"성    함 : "<<name<<endl;
+	cout<<"잔    액 : "<<balance<<endl;
+	cout<<endl;
+}
+
+
+/*
+	FaithAccount.h	//신용계좌(1%의 이자)
+*/
+#ifndef _FAITH_ACCOUNT_H_
+#define _FAITH_ACCOUNT_H_ 20
+#include "Account.h"
+
+class FaithAccount	:public Account
+{
+public:
+	FaithAccount(int id, char* name, double balance);
+	virtual ~FaithAccount(){}
+
+	virtual void AddBalance(double add);	//입금완료
+	virtual void MinBalance(double min);	//출금완료
+	virtual void ShowAllData() const;
+};
+#endif
+
+
+/*
+	FaithAccount.cpp
+*/
+#include "FaithAccount.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+FaithAccount::FaithAccount(int id, char* name, double balance)
+:Account(id,name,1.01*balance){}
+
+void FaithAccount::AddBalance(double add)	//입금완료
+{
+	Account::AddBalance(1.01*add);
+}
+void FaithAccount::MinBalance(double min)	//출금완료
+{
+	Account::MinBalance(min);
+}
+void FaithAccount::ShowAllData() const
+{
+	cout<<"***** 신용 계좌 *****"<<endl;
+	cout<<"계좌번호 : "<<GetID()<<endl;
+	cout<<"성    함 : "<<GetName()<<endl;
+	cout<<"잔    액 : "<<GetBalance()<<endl;
+	cout<<endl;
+}
+
+
+
+/*
+	ContriAccount.h	//기부 계좌(1%의 기여, 기부총액 표시)
+*/
+#ifndef _CONTRI_ACCOUNT_H_
+#define _CONTRI_ACCOUNT_H_ 20
+#include "Account.h"
+
+class ContriAccount :public Account
+{
+private:
+	double Contri;	//기부금 내역
+public:
+	ContriAccount(int id, char* name, double balance);
+	virtual ~ContriAccount(){}
+	double GetContri () const;
+
+	virtual void AddBalance(double add);	//입금완료
+	virtual void MinBalance(double min);	//출금완료
+	virtual void ShowAllData() const;
+};
+#endif
+
+
+
+/*
+	ContriAccount.cpp
+*/
+#include "ContriAccount.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+ContriAccount::ContriAccount(int id, char* name, double balance)
+:Account(id,name,0.99*balance)
+{
+	Contri=0.01*balance;
+}
+
+double ContriAccount::GetContri() const
+{
+	return Contri;
+}
+void ContriAccount::AddBalance(double add)	//입금완료
+{
+	Account::AddBalance(0.99*add);
+	Contri+=0.01*add;
+}
+void ContriAccount::MinBalance(double min)	//출금완료
+{
+	Account::MinBalance(min);
+}
+void ContriAccount::ShowAllData() const
+{
+	cout<<"***** 기부 계좌 *****"<<endl;
+	cout<<"계좌번호 : "<<GetID()<<endl;
+	cout<<"성    함 : "<<GetName()<<endl;
+	cout<<"잔    액 : "<<GetBalance()<<endl;
+	cout<<"기부내역 : "<<Contri<<endl;
+	cout<<endl;
+}
+
+
+
+
+/*
+	AccManager.h
+*/
+#ifndef _ACC_MANAGER_H_
+#define _ACC_NANAGER_ 20
+#include "FaithAccount.h"
+#include "ContriAccount.h"
+
+class AccManager
+{
+private:
+	Account* pAccount[100];
+	int count;
+public:
+	AccManager(){count=0;}
+	~AccManager(){}	//delete 해야되지 않나?
+					//1
+
+	void PrintMenu();	//목록출력
+	void MakeAccount();	//계좌개설
+	void Deposit();	//입금
+	void Withdraw();	//출금
+	void Inquire();	//잔액조회
+};
+#endif
+
+
+
+/*
+	AccManager.cpp
+*/
+#include "AccManager.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+void AccManager::PrintMenu()	//목록출력
+{
+	cout<<"***** 메뉴 목록 *****"<<endl;
+	cout<<"기능 1. 계좌 개설"<<endl;
+	cout<<"기능 2. 입     금"<<endl;
+	cout<<"기능 3. 출     금"<<endl;
+	cout<<"기능 4. 전체 고객 잔액 조회"<<endl;
+	cout<<"기능 5. 종     료"<<endl;
+}
+
+void AccManager::MakeAccount()	//계좌개설
+{
+	char name[SIZE];
+	int id;
+	int balance;
+	int select;
+
+	cout<<"***** 계좌 종류 *****"<<endl;
+	cout<<"기능 1. 일반 계좌"<<endl;
+	cout<<"기능 2. 신용 계좌"<<endl;
+	cout<<"기능 3. 기부 계좌"<<endl;
+	cout<<"선택할 기능 : ";
+	cin>>select;
+
+	if(0>select||select>3){
+		cout<<"잘못된 선택을 하셨습니다."<<endl;
+		return;
+	}
+
+	cout<<"***** 계좌 개설 *****"<<endl;
+	cout<<"성    함 : ";	cin>>name;
+	cout<<"계좌번호 : ";	cin>>id;
+	cout<<"입금금액 : ";    cin>>balance;
+	cout<<endl;
+
+	if(select==1)
+	{
+		pAccount[count++]=new Account(id,name,balance);
+#if _DEBUG_==1
+	if(pAccount[count]==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	}
+
+	if(select==2)	//신용 계좌
+	{
+		pAccount[count++]=new FaithAccount(id,name,balance);
+#if _DEBUG_==1
+	if(pAccount[count]==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	}
+	
+	if(select==3)	//기부 계좌
+	{
+		pAccount[count++]=new ContriAccount(id,name,balance);		
+#if _DEBUG_==1
+	if(pAccount[count]==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	}
+}
+void AccManager::Deposit()	//입금
+{
+	int find;
+	int i;	//for문
+	cout<<"***** 계좌 입금 *****"<<endl;
+	cout<<"입금할 계좌번호 : ";
+	cin>>find;
+
+	for(i=0;i<count;i++)
+	{
+		if(find==pAccount[i]->GetID())
+		{
+			double add;
+			cout<<"성    함 : "<<pAccount[i]->GetName()<<endl;
+			cout<<"입금할 금액 : ";	cin>>add;
+			pAccount[i]->AddBalance(add);
+			cout<<"잔    액 : "<<pAccount[i]->GetBalance()<<endl;
+			cout<<endl;
+			return;
+		}
+	}
+	cout<<"잘못된 계좌번호를 입력하셨습니다."<<endl;
+	cout<<endl;
+}
+
+void AccManager::Withdraw()	//출금
+{
+	int find;
+	int i;	//for문
+	cout<<"***** 계좌 출금 *****"<<endl;
+	cout<<"출금할 계좌번호 : ";
+	cin>>find;
+
+	for(i=0;i<count;i++)
+	{
+		if(find==pAccount[i]->GetID())
+		{
+			double min;
+			cout<<"성    함 : "<<pAccount[i]->GetName()<<endl;
+			cout<<"출금할 금액 : ";	cin>>min;
+			if(pAccount[i]->GetBalance()<min)
+			{
+				cout<<"잔액이 부족합니다."<<endl;
+				cout<<endl;
+				return;
+			}
+			pAccount[i]->MinBalance(min);
+			cout<<"잔    액 : "<<pAccount[i]->GetBalance()<<endl;
+			cout<<endl;
+			return;
+		}
+	}
+	cout<<"잘못된 계좌번호를 입력하셨습니다."<<endl;
+	cout<<endl;
+
+}
+
+void AccManager::Inquire()	//잔액조회
+{
+	cout<<"***** 잔액 조회 *****"<<endl;
+	for(int i=0;i<count;i++)
+		pAccount[i]->ShowAllData();
+	cout<<endl;
+}
+
+
+

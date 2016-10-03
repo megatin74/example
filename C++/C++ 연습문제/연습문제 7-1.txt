@@ -1,0 +1,102 @@
+/*
+	연습문제 7-1
+	main.cpp
+*/
+#include "Account.h"
+#include "KBAccount.h"
+
+int main (void)
+{
+	//계좌 번호 : 1234-5678
+	//초기 입금액 : 5000원
+	//이체 한도 : 100000원
+	KBAccount acc("1234-5678",5000,100000);
+	acc.ShowData();
+
+	return 0;
+}
+
+
+
+
+
+/*
+	Account.h
+*/
+#ifndef _COUNT_H_
+#define _COUNT_H_ 20
+
+#include<iostream>
+using std::cout;
+using std::endl;
+#endif
+
+class Account
+{
+private:
+	char acc_num[10];	//계좌 번호
+	int balance;	//계좌 잔액
+public:
+	Account(char* num="noname", int bal=0){
+		strcpy(acc_num,num);
+		balance=bal;
+	}
+	~Account(){}
+	const char* GetId() const;
+	int GetBal() const;
+};
+
+/*
+	Account.cpp
+*/
+#include "Account.h"
+
+const char* Account::GetId() const
+{
+	return acc_num;
+}
+ int Account::GetBal() const
+{
+	return balance;
+}
+
+
+
+/*
+	KBAccount.h
+*/
+#ifndef _COUNT_H_
+#define _COUNT_H_ 20
+#include<iostream>
+using std::cout;
+using std::endl;
+#endif
+
+class KBAccount :public Account
+{
+private:
+	int trans_limit;
+public:
+	KBAccount(char* _num,int _bal,int _trans)
+		:Account(_num,_bal)
+	{
+		trans_limit=_trans;
+	}
+	~KBAccount(){}
+	void ShowData() const;
+};
+
+/*
+	KBAccount.cpp
+*/
+#include "Account.h"
+#include "KBAccount.h"
+
+void KBAccount::ShowData() const
+{
+	cout<<"계좌 번호   : "<<GetId()<<endl;
+	cout<<"초기 입금액 : "<<GetBal()<<endl;
+	cout<<"이체 한도   : "<<trans_limit<<endl;
+	cout<<endl;
+}
+

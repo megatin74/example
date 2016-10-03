@@ -1,0 +1,96 @@
+/*
+	연습문제 4-1_문제1
+	main.cpp
+*/
+#include "Rectangle.h"
+#include "Circle.h"
+
+int main (void)
+{
+	Rectangle rec(3,4);	//Rectangle rec(가로,세로)
+	cout<<"면적 : "<<rec.GetArea()<<endl;
+	cout<<"둘래 : "<<rec.GetGirth()<<endl;
+
+	Circle cir(5);	//Circle cir(원의 반지름)
+	cout<<"면적 : "<<cir.GetArea()<<endl;
+	cout<<"둘래 : "<<cir.GetGirth()<<endl;
+
+	return 0;
+}
+
+
+
+/*
+	Rectangle.h
+*/
+#ifndef _COUNT_H_
+#define _COUNT_H_ 20
+
+#include<iostream>
+using std::cout;
+using std::endl;
+
+#endif;
+
+class Rectangle{
+	double length;
+	double height;
+public:
+	Rectangle(double _len,double _hei)
+	{
+		length=_len, height=_hei;
+	}
+	double GetArea();
+	double GetGirth();
+};
+/*
+	Rectangle.cpp
+*/
+#include "Rectangle.h"
+
+double Rectangle::GetArea()
+{
+	return length*height;
+}
+double Rectangle::GetGirth()
+{
+	return 2*(length+height);
+}
+
+
+
+/*
+	Circle.h
+*/
+#ifndef _COUNT_H_
+#define _COUNT_H_ 20
+
+#include<iostream>
+using std::cout;
+using std::endl;
+
+#endif
+
+class Circle{
+	double radius;
+public:
+	Circle(double _rad)
+	{
+		radius=_rad;
+	}
+	double GetArea();
+	double GetGirth();
+};
+/*
+	Circle.cpp
+*/
+#include "Circle.h"
+
+double Circle::GetArea()
+{
+	return radius*radius*3.14;
+}
+double Circle::GetGirth()
+{
+	return radius*6.18;
+}

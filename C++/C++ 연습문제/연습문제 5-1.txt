@@ -1,0 +1,86 @@
+/*
+	연습문제 5-1 문제 1
+	main.cpp
+*/
+#include "NameCard.h"
+
+int main(void)
+{
+	NameCard Lee("Lee Hun", "333-3333","freelec","manager");
+	NameCard Lee2(Lee);
+	Lee2.ShowData();
+
+	return 0;
+}
+
+
+
+
+
+/*
+	NameCard.h
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class NameCard{
+	char* name;
+	char* phone;
+	char* address;
+	char* career;
+public:
+	NameCard(char* name,char* phone,char* address,char* career);
+	NameCard(const NameCard& nc);
+	~NameCard();
+	void ShowData();
+};
+
+
+/*
+	NameCard.cpp
+*/
+#include "NameCard.h"
+
+NameCard::NameCard(char* name,char* phone,char* address,char* career)
+{
+	this->name=new char[strlen(name)+1];
+	strcpy(this->name,name);
+
+	this->phone=new char[strlen(phone)+1];
+	strcpy(this->phone,phone);
+
+	this->address=new char[strlen(address)+1];
+	strcpy(this->address,address);
+
+	this->career=new char[strlen(career)+1];
+	strcpy(this->career,career);
+}
+NameCard::NameCard(const NameCard& nc)
+{
+	name=new char[strlen(nc.name)+1];
+	strcpy(name,nc.name);
+
+	phone=new char[strlen(nc.phone)+1];
+	strcpy(phone,nc.phone);
+
+	address=new char[strlen(nc.address)+1];
+	strcpy(address,nc.address);
+
+	career=new char[strlen(nc.career)+1];
+	strcpy(career,nc.career);
+}
+NameCard::~NameCard()
+{
+	delete[] name;
+	delete[] phone;
+	delete[] address;
+	delete[] career;
+}
+void NameCard::ShowData()
+{
+	cout<<"이    름 : "<<name<<endl;
+	cout<<"전화번호 : "<<phone<<endl;
+	cout<<"주    소 : "<<address<<endl;
+	cout<<"직    급 : "<<career<<endl;
+}

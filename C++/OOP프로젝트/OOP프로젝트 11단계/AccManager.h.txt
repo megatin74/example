@@ -1,0 +1,26 @@
+/*
+	AccManager.h
+*/
+#ifndef _ACC_MANAGER_H_
+#define _ACC_NANAGER_ 20
+#include "FaithAccount.h"
+#include "ContriAccount.h"
+#include "Container.h"
+
+class AccManager
+{
+private:
+	Container<Account*> ctr;
+public:
+	AccManager(){}
+	~AccManager(){}	//delete 해야되지 않나?
+					//1
+
+	void PrintMenu();	//목록출력
+	void MakeAccount();	//계좌개설
+	void Deposit();	//입금
+	void Withdraw();	//출금
+	void Inquire();	//잔액조회
+};
+#endif
+

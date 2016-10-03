@@ -1,0 +1,20 @@
+/*
+	ContriAccount.h	//기부 계좌(1%의 기여, 기부총액 표시)
+*/
+#ifndef _CONTRI_ACCOUNT_H_
+#define _CONTRI_ACCOUNT_H_ 20
+#include "Account.h"
+
+class ContriAccount :public Account
+{
+private:
+	double contribution;	//기부금 내역
+public:
+	ContriAccount(int id, string name, double balance);
+	double GetContri () const;
+
+	virtual void AddBalance(double add);	//입금완료
+	virtual void ShowAllData() const;
+};
+#endif
+

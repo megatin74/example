@@ -1,0 +1,45 @@
+/*
+	OOP_PROJECT 11단계
+	main.cpp
+*/
+#include "AccManager.h"
+#include<iostream>
+using std::endl;
+using std::cout;
+using std::cin;
+
+enum{MAKE=1, DEPOSIT, WITHDRAW, INQUIRE, EXIT};
+
+int main(void)
+{
+	AccManager AccSel;
+	int select;
+
+	while(1)
+	{
+		AccSel.PrintMenu();
+		cout<<"선택할 기능(1~5) : "; cin>>select;
+
+		switch(select)
+		{
+			case MAKE:
+				AccSel.MakeAccount();
+				break;
+			case DEPOSIT:
+				AccSel.Deposit();
+				break;
+			case WITHDRAW:
+				AccSel.Withdraw();
+				break;
+			case INQUIRE:
+				AccSel.Inquire();
+				break;
+			case EXIT:
+				return 0;
+			default:
+				cout<<"선택을 잘못하셨습니다."<<endl;
+				break;
+		}
+	}
+}				
+

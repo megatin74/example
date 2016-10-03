@@ -1,0 +1,643 @@
+/*
+	hasa1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Cudgel	//몽둥이
+{
+public:
+	void Swing(){cout<<"Swing a cudgel!"<<endl;}
+};
+
+class Police :public Cudgel	//몽둥이를 소유하는 경찰
+{
+	Cudgel* cud;	//클래스 객체 멤버
+public:
+	void UseWeapon(){cud->Swing();}
+};
+
+int main()
+{
+	Police pol;
+	pol.UseWeapon();
+	return 0;
+}
+
+
+/*
+	hasa2.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Cudgel	//몽둥이
+{
+public:
+	void Swing(){cout<<"Swing a cudgel!"<<endl;}
+};
+
+class Police	//몽둥이를 소유하는 경찰
+{
+	Cudgel cud;	//클래스 객체 멤버
+public:
+	void UseWeapon(){cud.Swing();}
+};
+
+int main()
+{
+	Police pol;
+	pol.UseWeapon();
+	return 0;
+}
+
+
+/*
+	hasa3.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Cudgel	//몽둥이
+{
+public:
+	void Swing(){cout<<"Swing a cudgel!"<<endl;}
+};
+
+class Police	//몽둥이를 소유하는 경찰
+{
+	Cudgel* cud;	//클래스 객체 멤버
+public:
+	Police(){cud=new Cudgel;}
+	~Police(){delete cud;}
+	void UseWeapon(){cud->Swing();}
+};
+
+int main()
+{
+	Police pol;
+	pol.UseWeapon();
+	return 0;
+}
+
+
+
+/*
+	CPointer1.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+
+class Person
+{
+public:
+	void Sleep(){
+		cout<<"Sleep"<<endl;
+	}
+};
+
+class Student :public Person
+{
+public:
+	void Study(){
+		cout<<"Study"<<endl;
+	}
+};
+
+class PartTimeStd :public Student
+{
+public:
+	void Work(){
+		cout<<"Work"<<endl;
+	}
+};
+
+int main(void)
+{
+	Person* p1=new Person;
+	Person* p2=new Student;
+	Person* p3=new PartTimeStd;
+
+	p1->Sleep();
+	p2->Sleep();
+	p3->Sleep();
+
+	return 0;
+}
+
+/*
+	EmploteeManager1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class Permanent
+{
+private:
+	char name[20];	//이름
+	int salary;	//기본 급여
+public:
+	Permanent(char* _name, int sal);
+	const char* GetName();
+	int GetPay();
+};
+Permanent::Permanent(char* _name, int sal)
+{
+	strcpy(name,_name);
+	salary=sal;
+}
+const char* Permanent::GetName()
+{
+	return name;
+}
+int Permanent::GetPay()
+{
+	return salary;
+}
+
+class Department
+{
+	Permanent* empList[10];
+	int index;
+public:
+	Department():index(0){}
+	void AddEmployee(Permanent* emp);
+	void ShowList();
+};
+void Department::AddEmployee(Permanent* emp)
+{
+	empList[index++]=emp;
+}
+void Department::ShowList()
+{
+	for(int i=0; i<index; i++)
+	{
+		cout<<"name   : "<<empList[i]->GetName()<<endl;
+		cout<<"salary : "<<empList[i]->GetPay()<<endl;
+		cout<<endl;
+	}
+}
+
+int main(void)
+{
+	//직원을 관리하는 CONTROL 클래스
+	Department department;
+
+	//직원 등록
+	department.AddEmployee(new Permanent("KIM",1000));
+	department.AddEmployee(new Permanent("LEE",1500));
+	department.AddEmployee(new Permanent("JUN",2000));
+
+	//최종적으로 이번 달에 지불해야 할 급여는?
+	department.ShowList();
+
+	return 0;
+}
+
+
+/*
+	CPointer2.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+
+class Person
+{
+public:
+	void Sleep(){
+		cout<<"Sleep"<<endl;
+	}
+};
+
+class Student :public Person
+{
+public:
+	void Study(){
+		cout<<"Study"<<endl;
+	}
+};
+
+class PartTimeStd :public Student
+{
+public:
+	void Work(){
+		cout<<"Work"<<endl;
+	}
+};
+
+int main(void)
+{
+	Person* p3=new PartTimeStd;
+
+	p3->Sleep();
+	//p3->Study();
+	//p3->Work();
+
+	return 0;
+}
+
+
+
+
+/*
+	CReference1.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+
+class Person
+{
+public:
+	void Sleep(){
+		cout<<"Sleep"<<endl;
+	}
+};
+
+class Student :public Person
+{
+public:
+	void Study(){
+		cout<<"Study"<<endl;
+	}
+};
+
+class PartTimeStd :public Student
+{
+public:
+	void Work(){
+		cout<<"Work"<<endl;
+	}
+};
+
+int main(void)
+{
+	PartTimeStd p;
+	Student& ref1=p;
+	Person& ref2=p;
+
+	p.Sleep();
+	ref1.Sleep();
+	ref2.Sleep();
+
+	return 0;
+}
+
+
+
+/*
+	CReference2.cpp
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+
+class Person
+{
+public:
+	void Sleep(){
+		cout<<"Sleep"<<endl;
+	}
+};
+
+class Student :public Person
+{
+public:
+	void Study(){
+		cout<<"Study"<<endl;
+	}
+};
+
+class PartTimeStd :public Student
+{
+public:
+	void Work(){
+		cout<<"Work"<<endl;
+	}
+};
+
+int main(void)
+{
+	PartTimeStd p;
+	p.Sleep();
+	p.Study();
+	p.Work();
+
+	Person& ref=p;
+	ref.Sleep();
+	//ref.Study();
+	//ref.Work();
+
+	return 0;
+}
+
+
+
+/*
+	Overriding1.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+public:
+	void fct(){	//BBB클래스의 fct()에 의해 오버라이딩됨.
+		cout<<"AAA"<<endl;
+	}
+};
+
+class BBB :public AAA
+{
+public:
+	void fct(){	//AAA클래스의 fct() 함수를 오버라이딩 함.
+		cout<<"BBB"<<endl;
+	}
+};
+
+int main(void)
+{
+	BBB b;
+	b.fct();
+
+	return 0;
+}
+
+
+/*
+	Overriding3.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+public:
+	virtual void fct(){	//가상함수
+		cout<<"AAA"<<endl;
+	}
+};
+
+class BBB :public AAA
+{
+public:
+	void fct(){
+		cout<<"BBB"<<endl;
+	}
+};
+
+int main(void)
+{
+	BBB* b=new BBB;
+	b->fct();
+
+	AAA* a=b;
+	a->fct();
+
+	delete b;
+	return 0;
+}
+
+
+/*
+	Overriding3.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+public:
+	virtual void fct(){	//가상함수
+		cout<<"AAA"<<endl;
+	}
+};
+
+class BBB :public AAA
+{
+public:
+	void fct(){	//virtual void fct()
+		cout<<"BBB"<<endl;
+	}
+};
+
+class CCC :public BBB
+{
+public:
+	void fct(){	//virtual void fct()
+		cout<<"CCC"<<endl;
+	}
+};
+
+int main(void)
+{
+	BBB* b=new CCC;
+	b->fct();
+
+	AAA* a=b;
+	a->fct();
+
+	delete b;
+	return 0;
+}
+
+
+/*
+	Overriding4.cpp?
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+public:
+	virtual void fct(){	//가상함수
+		cout<<"AAA"<<endl;
+	}
+};
+
+class BBB :public AAA
+{
+public:
+	void fct(){	//virtual void fct()
+		cout<<"BBB"<<endl;
+	}
+};
+
+int main(void)
+{
+	BBB b;
+	b.fct();	//static binding
+
+	AAA* a=new BBB;
+	a->fct();	//dynamic binding
+
+	return 0;
+}
+
+
+/*
+	Overriding5.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+public:
+	virtual void fct(){	//가상함수
+		cout<<"AAA"<<endl;
+	}
+};
+
+class BBB :public AAA
+{
+public:
+	void fct(){	//virtual void fct()
+		AAA::fct();	//방법 1
+		cout<<"BBB"<<endl;
+	}
+};
+
+int main(void)
+{
+	AAA* a=new BBB;
+	cout<<"첫 번째 시도"<<endl;
+	a->fct();
+
+	cout<<"두 번째 시도"<<endl;
+	a->AAA::fct();	//방법 2(좋지못함)
+
+	return 0;
+}
+
+
+/*
+	VirtualDest.cpp
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+	char* str1;
+public:
+	AAA(char* _str1){
+		str1=new char[strlen(_str1)+1];
+		strcpy(str1,_str1);
+	}
+	~AAA()
+	{
+		cout<<"~AAA() call!"<<endl;
+		delete[] str1;
+	}
+	virtual void ShowString(){
+		cout<<str1<<' ';
+	}
+};
+
+class BBB :public AAA
+{
+	char* str2;
+public:
+	BBB(char* _str1, char* _str2) :AAA(_str1){
+		str2=new char[strlen(_str2)+1];
+		strcpy(str2,_str2);
+	}
+	~BBB(){
+		cout<<"~BBB() call!"<<endl;
+		delete[] str2;
+	}
+	virtual void ShowString(){
+		AAA::ShowString();
+		cout<<str2<<endl;
+	}
+};
+
+/***** main function ***************/
+int main()
+{
+	AAA* a=new BBB("Good","evening");
+	BBB* b=new BBB("Good","morning");
+
+	a->ShowString();
+	b->ShowString();
+
+	cout<<"-----객체 소멸 직전-----"<<endl;
+	delete a;
+	delete b;
+
+	return 0;
+}
+
+
+/*
+	VirtualDest2.cpp?
+*/
+#include<iostream>
+using std::cout;
+using std::endl;
+
+class AAA
+{
+	char* str1;
+public:
+	AAA(char* _str1){
+		str1=new char[strlen(_str1)+1];
+		strcpy(str1,_str1);
+	}
+	virtual ~AAA()
+	{
+		cout<<"~AAA() call!"<<endl;
+		delete[] str1;
+	}
+	virtual void ShowString(){
+		cout<<str1<<' ';
+	}
+};
+
+class BBB :public AAA
+{
+	char* str2;
+public:
+	BBB(char* _str1, char* _str2) :AAA(_str1){
+		str2=new char[strlen(_str2)+1];
+		strcpy(str2,_str2);
+	}
+	~BBB(){
+		cout<<"~BBB() call!"<<endl;
+		delete[] str2;
+	}
+	virtual void ShowString(){
+		AAA::ShowString();
+		cout<<str2<<endl;
+	}
+};
+
+/***** main function ***************/
+int main()
+{
+	AAA* a=new BBB("Good","evening");
+	BBB* b=new BBB("Good","morning");
+
+	a->ShowString();
+	b->ShowString();
+
+	cout<<"-----객체 소멸 직전-----"<<endl;
+	delete a;
+	delete b;
+
+	return 0;
+}

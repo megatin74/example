@@ -1,0 +1,72 @@
+/*
+	Circle.h
+*/
+#ifndef _COUNT_H_
+#define _COUNT_H_ 20
+#include <iostream>
+using std::cout;
+using std::endl;
+
+#define _DEBUG_ 1
+//#define _DEBUG_ 0
+#endif
+class Point
+{
+private:
+	double x;
+	double y;
+public:
+	Point(double x, double y)
+	{
+		this->x=x;
+		this->y=y;
+	}
+	~Point(){}
+	double GetX() const{
+		return x;
+	}
+	double GetY() const{
+		return y;
+	}
+
+};
+
+class Circle
+{
+private:
+	double rad;
+	Point* point;
+public:
+	Circle(double x, double y, double rad)
+	{
+		point=new Point(x,y);
+		this->rad=rad;
+	}
+	~Circle()
+	{
+		delete point;
+	}
+	double GetRad() const{
+		return rad;
+	}
+	void ShowData() const{
+		cout<<"중심 좌표 : ["<<point->GetX()<<", "<<point->GetY()<<"]"<<endl;
+		cout<<"반 지 름  : "<<rad<<endl;
+		cout<<"원의 넓이 : "<<rad*rad*3.14<<endl;
+	}
+};
+
+
+/*
+	연습문제 8-2 문제2
+	main.cpp
+*/
+#include "Circle.h"
+
+int main(void)
+{
+	Circle cir(3,5,2.2);
+	cir.ShowData();
+
+	return 0;
+}

@@ -1,0 +1,45 @@
+/*
+	연습문제 12-1 문제1
+*/
+#include<iostream>
+using std::endl;
+using std::cout;
+
+template<typename T>
+T Add(T a, T b)
+{
+	return a+b;
+}
+
+class Point{
+private:
+	int x,y;
+public:
+	Point(int _x, int _y):x(_x),y(_y){}
+	Point& operator=(const Point& p);
+	Point operator+(const Point& p);
+	void ShowPoistion();
+};
+Point& Point::operator=(const Point& p){
+	x=p.x;
+	y=p.y;
+
+	return *this;
+}
+Point Point::operator +(const Point& p){
+	return Point(x+p.x, y+p.y);
+}
+void Point::ShowPoistion(){
+	cout<<x<<" "<<y<<endl;
+}
+
+int main(void)
+{
+	Point p1(1,2);
+	Point p2(1,2);
+
+	Point p3=Add(p1,p2);
+	p3.ShowPoistion();
+
+	return 0;
+}

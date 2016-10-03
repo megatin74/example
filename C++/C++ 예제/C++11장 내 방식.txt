@@ -1,0 +1,107 @@
+/*
+	StringClass2.cpp
+	내 방식
+*/
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+using std::ostream;
+using std::istream;
+namespace mystd
+{
+	class string	//문자열 가지고 노는데
+	{
+	private:
+		char* str;
+	public:
+		string(char* _str="NoData"){
+			str=new char[strlen(_str)+1];
+			strcpy(str,_str);
+		}
+		string(string& s){
+			str=new char[strlen(s.str)+1];
+			strcpy(str,s.str);
+		}
+		~string(){
+			delete[] str;
+		}
+		string& operator=(string& s);
+		string operator+(string& s);
+		string& operator+=(string& s);
+		bool operator==(string& s);
+		friend ostream& operator<<(ostream& os, string& s);
+		friend istream& operator>>(istream& is, string& s);
+	};
+	string& string::operator =(string& s)
+	{
+		delete[] str;
+		str=new char[strlen(s.str)+1];
+		strcpy(str,s.str);
+		return *this;
+	}
+	string string::operator +(string& s)
+	{
+		char* rStr=new char[strlen(str)+strlen(s.str)+1];
+		strcpy(rStr,str);
+		strcat(rStr,s.str);
+		
+		string temp(rStr);
+		delete[] rStr;	
+		return temp;
+	}
+	string& string::operator+=(string& s)
+	{
+		*this=*this+s;
+		return *this;
+	}
+	bool string::operator==(string& s)
+	{
+		int i;
+		i=strcmp(str,s.str);
+		if(i==0)
+			return true;
+		else
+			return false;
+		//return (strcmp(str,s.str))? false:true;
+	}
+
+	ostream& operator<<(ostream& os, string& s)
+	{
+		os<<s.str;
+		return os;
+	}
+	istream& operator>>(istream& is, string& s)
+	{
+		char rStr[100];
+		is>>rStr;
+		s=string(rStr);
+		return is;
+	}
+
+}	
+using mystd::string;
+
+int main()
+{
+	string str1="Good ";
+	string str2="morning";
+	string str3=str1+str2;
+
+	cout<<str1<<endl;
+	cout<<str2<<endl;
+	cout<<str3<<endl;
+
+	str1+=str2;
+	if(str1==str3){
+		cout<<"equal!"<<endl;
+	}
+
+	string str4;
+	cout<<"문자열 입력: ";
+	cin>>str4;
+	cout<<"입력한 문자열: "<<str4<<endl;
+
+	return 0;
+}

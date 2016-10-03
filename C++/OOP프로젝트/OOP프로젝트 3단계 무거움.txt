@@ -1,0 +1,235 @@
+/*
+	OOP_PROJECT 3단계
+	main.cpp
+*/
+#include "Bank.h"
+
+int main(void)
+{
+	int select;
+
+	while(1)
+	{
+		PrintMenu();
+		cout<<"선택할 기능(1~5) : "; cin>>select;
+
+		if(select==MAKE)
+			MakeAccount();
+		else if(select==DEPOSIT)
+			Deposit();
+		else if(select==WITHDRAW)
+			Withdraw();
+		else if(select==INQUIRE)
+			Inquire();
+		else if(select==EXIT)
+			return 0;
+		else
+			cout<<"선택을 잘못하셨습니다."<<endl;
+	}
+}				
+
+
+
+/*
+	Bank.h
+*/
+#ifndef _COUNT_H_
+#define _COUNT_H_ 20
+
+#include<iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+enum{MAKE=1, DEPOSIT, WITHDRAW, INQUIRE, EXIT};
+
+#define SIZE 20
+#define _DEBUG_ 1
+//#define _DEBUG_ 2
+#endif
+
+extern void PrintMenu(void);
+
+class Bank{
+	int account;	//계좌
+	char* name;	//이름
+	int balance;	//잔액
+public:
+	Bank(){};
+	Bank(int account, char* name, int balance);
+	Bank(Bank& bank);
+	~Bank();
+
+	int GetAccount();	//계좌전달
+	char* GetName();	//이름전달
+	int GetBalance();	//잔액전달
+
+	void AddBalance(int add);	//입금완료
+	void MinBalance(int min);	//출금완료
+	void ShowAllData();
+};
+
+void MakeAccount();	//계좌개설
+void Deposit();	//입금
+void Withdraw();	//출금
+void Inquire();	//잔액조회
+
+
+
+
+/*
+	Bank.cpp
+*/
+#include "Bank.h"
+
+Bank* pArray[100];
+int count=0;
+
+Bank::Bank(int account, char* name, int balance)
+{
+	this->account=account;
+
+	this->name=new char[strlen(name)+1];
+#if _DEBUG_==1
+	if(this->name==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	strcpy(this->name,name);
+
+	this->balance=balance;
+}
+Bank::Bank(Bank& bank)
+{
+	account=bank.account;
+
+	name=new char[strlen(bank.name)+1];
+#if _DEBUG_==1
+	if(this->name==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	strcpy(name,bank.name);
+
+	balance=bank.balance;
+}
+Bank::~Bank()
+{
+	delete name;	//delete this;
+}
+int Bank::GetAccount()	//계좌전달
+{
+	return account;
+}
+char* Bank::GetName()	//이름전달
+{
+	return name;
+}
+int Bank::GetBalance()	//잔액전달
+{
+	return balance;
+}
+void Bank::AddBalance(int add)	//잔액입금
+{
+	balance+=add;
+	cout<<"입금이 완료되었습니다."<<endl;
+}
+void Bank::MinBalance(int min)	//잔액출금
+{
+	balance-=min;
+	cout<<"출금이 완료되었습니다."<<endl;
+}
+void Bank::ShowAllData()
+{
+	cout<<"계좌번호 : "<<account<<endl;
+	cout<<"성    함 : "<<name<<endl;
+	cout<<"잔    액 : "<<balance<<endl;
+	cout<<endl;
+}
+
+
+
+void PrintMenu(void)	//메뉴
+{
+	cout<<"***** 메뉴 목록 *****"<<endl;
+	cout<<"기능 1. 계좌 개설"<<endl;
+	cout<<"기능 2. 입     금"<<endl;
+	cout<<"기능 3. 출     금"<<endl;
+	cout<<"기능 4. 전체 고객 잔액 조회"<<endl;
+	cout<<"기능 5. 종     료"<<endl;
+}
+void MakeAccount()	//계좌개설
+{
+	char name[SIZE];
+	int account;
+	int balance;
+
+	cout<<"***** 계좌 개설 *****"<<endl;
+	cout<<"성    함 : ";	cin>>name;
+	cout<<"계좌번호 : ";	cin>>account;
+	cout<<"입금금액 : ";    cin>>balance;
+	cout<<endl;
+
+	pArray[count]=new Bank(account,name,balance);
+#if _DEBUG_==1
+	if(pArray[count]==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	count++;
+}
+
+void Deposit()	//입금
+{
+	int find;
+	cout<<"***** 계좌 입금 *****"<<endl;
+	cout<<"입금할 계좌번호 : ";
+	cin>>find;
+
+	for(int i=0;i<count;i++)
+	{
+		if(find==pArray[i]->GetAccount())
+		{
+			int add;
+			cout<<"성    함 : "<<pArray[i]->GetName()<<endl;
+			cout<<"입금할 금액 : ";	cin>>add;
+			pArray[i]->AddBalance(add);
+			cout<<"잔    액 : "<<pArray[i]->GetBalance()<<endl;
+			break;
+		}
+		cout<<"잘못된 계좌번호를 입력하셨습니다."<<endl;
+	}	
+}
+void Withdraw()	//출금
+{
+	int find;
+	cout<<"***** 계좌 출금 *****"<<endl;
+	cout<<"출금할 계좌번호 : ";
+	cin>>find;
+
+	for(int i=0;i<count;i++)
+	{
+		if(find==pArray[i]->GetAccount())
+		{
+			int min;
+			cout<<"성    함 : "<<pArray[i]->GetName()<<endl;
+			cout<<"입금할 금액 : ";	cin>>min;
+			pArray[i]->MinBalance(min);
+			cout<<"잔    액 : "<<pArray[i]->GetBalance()<<endl;
+			break;
+		}
+		cout<<"잘못된 계좌번호를 입력하셨습니다."<<endl;
+	}
+}
+void Inquire()	//잔액조회
+{
+	cout<<"***** 잔액 조회 *****"<<endl;
+	for(int i=0;i<count;i++)
+		pArray[i]->ShowAllData();
+}
+

@@ -1,0 +1,84 @@
+/*
+	String.cpp
+*/
+#include "String.h"
+using std::cout;
+using std::endl;
+
+string::string(const char* s){
+	len=strlen(s);
+	str=new char[len+1];
+#if _DEBUG_==1
+	if(str==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	strcpy(str,s);
+}
+string::string(const string& s){
+	len=s.len;
+	str=new char[len+1];
+#if _DEBUG_==1
+	if(str==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	strcpy(str,s.str);
+}
+string::~string(){
+	delete[] str;
+}
+
+string& string::operator=(const string& s){
+	delete[] str;
+	len=s.len;
+	str=new char[len+1];
+#if _DEBUG_==1
+	if(str==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	strcpy(str,s.str);
+
+	return *this;
+}
+string string::operator+(const string& s){
+	char* tStr=new char[len+s.len+1];
+#if _DEBUG_==1
+	if(tStr==NULL)
+	{
+		cout<<"메모리 할당 실패"<<endl;
+		exit(1);
+	}
+#endif
+	strcpy(tStr,str);
+	strcat(tStr,s.str);
+
+	string temp(tStr);
+	delete[] tStr;
+	return temp;
+}
+string& string::operator+=(const string& s){
+	return *this=*this+s;
+}
+bool string::operator ==(const string& s){
+	return strcmp(str,s.str)? false: true;
+}
+
+ostream& operator<<(ostream& os, const string& s){
+	os<<s.str;
+	return os;
+}
+istream& operator>>(istream& is, string& s){
+	char tStr[SIZE];
+	is>>tStr;
+
+	s=string(tStr);
+	return is;
+}
