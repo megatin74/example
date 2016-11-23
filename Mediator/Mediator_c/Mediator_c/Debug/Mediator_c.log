@@ -1,0 +1,20 @@
+﻿Build started 2016-11-23 오후 5:06:52.
+     1>Project "D:\Project\Git\Mediator\Mediator_c\Mediator_c\Mediator_c.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\Mediator_c.unsuccessfulbuild".
+       ClCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Project\Git\Mediator\Mediator_c\Debug\Mediator_c.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Mediator_c.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Project\Git\Mediator\Mediator_c\Debug\Mediator_c.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Project\Git\Mediator\Mediator_c\Debug\Mediator_c.lib" /MACHINE:X86 Debug\main.obj
+     1>main.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+         Mediator_c.vcxproj -> D:\Project\Git\Mediator\Mediator_c\Debug\Mediator_c.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Project\Git\Mediator\Mediator_c\Debug\Mediator_c.exe;#1" /manifest Debug\Mediator_c.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Debug\Mediator_c.unsuccessfulbuild".
+         Touching "Debug\Mediator_c.lastbuildstate".
+     1>Done Building Project "D:\Project\Git\Mediator\Mediator_c\Mediator_c\Mediator_c.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.01
