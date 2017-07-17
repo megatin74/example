@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1500291072 source:d:\project\git\patternblocks\main.cpp
+	<iostream>
+	<ctime>
+	<cstdlib>
+	<vector>
+	<tuple>
+

@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1479867845 source:d:\project\git\mediator\main.cpp
+	<iostream>
+	<cstring>
+

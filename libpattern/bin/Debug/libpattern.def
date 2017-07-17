@@ -1,0 +1,4 @@
+EXPORTS
+    _Z9AfxGetAppv @1
+    g_app @2 DATA
+    main @3

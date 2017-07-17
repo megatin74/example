@@ -1,0 +1,26 @@
+﻿Build started 2017-07-17 오후 7:54:04.
+     1>Project "D:\Project\Git\PatternTest\PatternTest\PatternTest.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\PatternTest.unsuccessfulbuild".
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>d:\project\git\patterntest\patterntest\main.cpp(62): error C2143: syntax error : missing ',' before ':'
+     1>d:\project\git\patterntest\patterntest\main.cpp(62): error C2530: 'p' : references must be initialized
+     1>d:\project\git\patterntest\patterntest\main.cpp(62): error C3531: 'p': a symbol whose type contains 'auto' must have an initializer
+     1>d:\project\git\patterntest\patterntest\main.cpp(63): error C2143: syntax error : missing ';' before '{'
+     1>d:\project\git\patterntest\patterntest\main.cpp(65): error C2228: left of '.first' must have class/struct/union
+                 type is 'int'
+     1>d:\project\git\patterntest\patterntest\main.cpp(65): error C2228: left of '.first' must have class/struct/union
+                 type is 'int'
+     1>d:\project\git\patterntest\patterntest\main.cpp(65): error C2228: left of '.first' must have class/struct/union
+                 type is 'int'
+     1>d:\project\git\patterntest\patterntest\main.cpp(66): error C2228: left of '.second' must have class/struct/union
+                 type is 'int'
+     1>d:\project\git\patterntest\patterntest\main.cpp(66): error C2228: left of '.second' must have class/struct/union
+                 type is 'int'
+     1>Done Building Project "D:\Project\Git\PatternTest\PatternTest\PatternTest.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:12.26

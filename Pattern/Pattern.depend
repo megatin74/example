@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1500286947 source:d:\project\git\pattern\main.cpp
+	<iostream>
+	<ctime>
+	<cstdlib>
+	<vector>
+	<tuple>
+
