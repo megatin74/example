@@ -1,93 +1,114 @@
+
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
 #include <vector>
-#include <tuple>
+
 using namespace std;
-class BaseBallGame
+
+class BaseFS
 {
-    typedef tuple<int, int, int> INPUT;
-    typedef tuple<int, int> RESULT;
-    vector<pair<INPUT, RESULT> > v;
+    string title;
 public:
-    virtual void PredictNumber(int* a,int* b,int* c)
+    BaseFS(string s):title(s){}
+
+    string getTitle(){return title;}
+    virtual void print()=0;
+    virtual int getSize()=0;
+
+};
+
+
+class Folder : public BaseFS
+{
+    vector<BaseFS*> v;
+public:
+    Folder(string s):BaseFS(s){}
+
+    void add(BaseFS* p){v.push_back(p); }
+
+    virtual int getSize()
     {
-            do {
-                *a = rand() % 9 + 1;
-                *b = rand() % 9 + 1;
-                *c = rand() % 9 + 1;
-            } while (*a == *b || *b == *c || *c ==*a);
-    }
-    BaseBallGame() { srand((unsigned)time(0)); }
-    void run()
-    {
-        while (1)
+        int total=0;
+        int sz = v.size();
+        for(int i=0;i<sz;i++)
         {
-            //-----------------------------------------------
-            // ÀÌÀüÀÇ °á°ú°¡ ´ã±ä vector v¸¦ Âü°í ÇØ¼­
-            // »ç¿ëÀÚ°¡ »ı°¢ÇÑ ¼ıÀÚ¸¦ ¿¹ÃøÇØ ³À´Ï´Ù.
-            // ÇöÀç ±¸ÇöÀº ¹«Á¶°Ç ·£´ı ÀÔ´Ï´Ù.
-            int x = 0, y = 0, z = 0;
-
-            PredictNumber(&x,&y,&z);
-
-            //--------------------------------------
-            cout << "´ç½ÅÀÌ »ı°¢ÇÑ ¼ıÀÚ´Â " << x
-            << ", " << y << ", " << z << " ÀÔ´Ï±î ?" << endl;
-
-            int strike = 0, ball = 0;
-            cout << "strike °¹¼ö : ";
-            cin >> strike;
-
-            if (strike == 3)
-            {
-                cout << "¼º°ø !" << endl;
-                break;
-            }
-
-            cout << "ball °¹¼ö : ";
-            cin >> ball;
-            //--------------------------------------
-            // ÀÔ·ÂµÈ °á°ú(strike, ball)À» ±â·ÏÇØ µÎ¾ú´Ù°¡
-            // ´ÙÀ½¼ö¸¦ ¿¹ÃøÇÒ¶§ »ç¿ëÇÕ´Ï´Ù.
-            v.push_back(make_pair(INPUT(x, y, z), RESULT(strike, ball)));
-            dump();
+            total += v[i]->getSize();
         }
+        return total;
     }
-    // ÇÊ¿äÇÏ½Å ºĞÀ» À§ÇØ Âü°í¿ëÀ¸·Î ¸¸µç ÇÔ¼öÀÔ´Ï´Ù.
-    void dump()
+    virtual void print()
     {
-        printf("-------------------------------\n");
-        printf("ÀÔ·Â°ª s b\n");
-        for (auto& p : v) // p´Â pair<INPUT, RESULT> ÀÔ´Ï´Ù.
-            {
-            printf(" %d %d %d : %d %d\n",
-            get<0>(p.first), get<1>(p.first), get<2>(p.first),
-            get<0>(p.second), get<1>(p.second));
+
+
+
+          int sz = v.size();
+        for(int i=0;i<sz;i++)
+        {
+            cout<<"("<<v[i]->getTitle()<<")"<<endl;
         }
-        printf("-------------------------------\n");
+
+
+
+
+
     }
+
 };
 
-class BaseBallGame2 : public BaseBallGame
+class File :public BaseFS
 {
-
+    int size;
 public:
-     virtual void PredictNumber(int* a,int* b,int* c)
+    File(string s,int n):BaseFS(s),size(n){}
+    virtual int getSize(){return size;}
+    virtual void print()
     {
-            do {
-                *a = rand() % 9 + 1;
-                *b = rand() % 9 + 1;
-                *c = rand() % 9 + 1;
-            } while (*a == *b || *b == *c || *c ==*a);
-
-            cout<<"apply second rule"<<endl;
-    }   
+        cout<<"("<<this->getTitle()<<","<<size<<")"<<endl;
+    }
 };
 
-
-int main(void)
+int main()
 {
-    BaseBallGame2 bbg;
-    bbg.run();
+    // ì¡°ê±´ 1. Folderì™€ Fileì˜ ê°ì²´ë¥¼ ìƒì„±í•  ìˆ˜ ìˆì–´ì•¼ í•©ë‹ˆë‹¤.
+    Folder* rootFolder = new Folder("ROOT"); // í´ë”ëŠ” ì´ë¦„ë§Œ ìˆìŠµë‹ˆë‹¤.
+    Folder* aaaaFolder = new Folder("AAAA");
+    Folder* bbbbFolder = new Folder("BBBB");
+
+    File* file1 = new File("a.txt", 10); // í™”ì¼ì€ ì´ë¦„ê³¼ í¬ê¸°ê°€ ìˆìŠµë‹ˆë‹¤
+    File* file2 = new File("b.txt", 20);
+    File* file3 = new File("c.txt", 30);
+    File* file4 = new File("d.txt", 40);
+
+    // ì¡°ê±´ 2. í´ë”ì•ˆì— íŒŒì¼ ë° ë‹¤ë¥¸ í´ë”ë¥¼ ë„£ì„ ìˆ˜ ìˆì–´ì•¼ í•©ë‹ˆë‹¤.
+    rootFolder->add(aaaaFolder);
+    rootFolder->add(bbbbFolder);
+    rootFolder->add(file1);
+
+    aaaaFolder->add(file2);
+    aaaaFolder->add(file3);
+
+    bbbbFolder->add(file4);
+
+    // ì¡°ê±´ 3. íŒŒì¼ê³¼ í´ë” í¬ê¸°ë¥¼ ì¶œë ¥í•  ìˆ˜ ìˆì–´ì•¼ í•©ë‹ˆë‹¤.
+    // í´ë”ëŠ” ìì‹ ë§Œì˜ í¬ê¸°ëŠ” ì—†ì§€ë§Œ í¬ê¸°ë¥¼ êµ¬í•  ìˆ˜ ëŠ” ìˆìŠµë‹ˆë‹¤.
+    cout << file1->getSize() << endl; // 10
+    cout << aaaaFolder->getSize() << endl; // 50
+    cout << rootFolder->getSize() << endl; // 100
+
+    // ì¡°ê±´ 4. í™”ë©´ ì¶œë ¥
+    file1->print(); // íŒŒì¼ì´ë¯€ë¡œ ì´ë¦„ê³¼ í¬ê¸°ë§Œ ì¶œë ¥í•´ ì£¼ì„¸ìš”.
+                    // ex) (a.txt, 10)
+
+    rootFolder->print(); // ROOTí´ë” ì „ì²´ì˜ ëª¨ì–‘ì„ ë³´ê¸°ì¢‹ê²Œ ì¶œë ¥í•´ ì£¼ì„¸ìš”
+                         // [ROOT]
+                         //     [AAAA]
+                         //         (b.txt, 20)
+                         //         (b.txt, 30)
+                         //     [BBBB]
+                         //         (d.txt, 40)
+                         //      (a.txt, 10)
+
+    // ì¡°ê±´ 5. í´ë” ì œê±°ì‹œ í´ë” ì•ˆì— ìˆëŠ” ëª¨ë“  íŒŒì¼ê³¼ í´ë”ê°€ ì œê±° ë˜ê²Œ í•´ì£¼ì„¸ìš”
+    delete rootFolder;
 }
