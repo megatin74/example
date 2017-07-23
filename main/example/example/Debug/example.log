@@ -1,0 +1,2 @@
+﻿  example.cpp
+c:\temp\git\example\main\example\example\example.cpp(3): fatal error C1083: Cannot open include file: 'iostream.h': No such file or directory
