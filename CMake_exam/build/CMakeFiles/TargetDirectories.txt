@@ -1,0 +1,3 @@
+D:/Project/Git/CMake_exam/build/CMakeFiles/hellocmake.dir
+D:/Project/Git/CMake_exam/build/CMakeFiles/edit_cache.dir
+D:/Project/Git/CMake_exam/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cedmd.dir/objects.a
+C:\MinGW\bin\ar.exe cr CMakeFiles\cedmd.dir/objects.a @CMakeFiles\cedmd.dir\objects1.rsp
+C:\MinGW\bin\g++.exe    -Wl,--whole-archive CMakeFiles\cedmd.dir/objects.a -Wl,--no-whole-archive  -o cedmd.exe -Wl,--out-implib,libcedmd.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cedmd.dir\linklibs.rsp

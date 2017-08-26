@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/add.h
+stdio.h
+-
+
+../include/hello.h
+stdio.h
+-
+
+D:/Project/Git/CMake_exam/library/add.cpp
+add.h
+D:/Project/Git/CMake_exam/library/add.h
+
+D:/Project/Git/CMake_exam/library/hello.cpp
+hello.h
+D:/Project/Git/CMake_exam/library/hello.h
+
+D:/Project/Git/CMake_exam/src/demo.cpp
+stdio.h
+-
+hello.h
+D:/Project/Git/CMake_exam/src/hello.h
+add.h
+D:/Project/Git/CMake_exam/src/add.h
+
